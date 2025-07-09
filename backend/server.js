@@ -11,8 +11,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Static frontend (optional, remove if not using)
-app.use(express.static(path.join(__dirname, 'public')));
+// Static frontend
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Serve index.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // Routes
 const decisionRouter = require('./routes/aidecision');
