@@ -1,0 +1,94 @@
+/* Full-width flex wrapper for header */
+.nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Grouping left and right */
+.nav-left,
+.nav-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Style nav + auth buttons */
+.nav-button,
+.auth-buttons button {
+  all: unset;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  background-color: #26a69a;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 45px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-button.active {
+  background-color: #f9bc60;
+  color: #004643;
+}
+
+.nav-button:hover,
+.auth-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Remove anchor styling */
+.nav-left a,
+.nav-right a {
+  text-decoration: none;
+}
+
+.how-it-works {
+  display: flex;
+  background-color: #ACD1C6;
+  color: #fffffe;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  height: 400px; /* Match about-us height */
+}
+
+.how-it-works-image {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+
+.how-it-works-image img {
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.how-it-works-text {
+  flex: 2;
+  padding: 1rem;
+}
+
+/* Make section titles (h2) in about-us and how-it-works larger */
+.about-text h2,
+.how-it-works-text h2 {
+  font-size: 2rem; /* adjust as needed */
+  margin-bottom: 1rem;
+}
+
+

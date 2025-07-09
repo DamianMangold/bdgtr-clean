@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css" />
+  <link rel="stylesheet" href="Styles/account.css" />
+</head>
+<body>
+  <div class="account-content">
+    <!-- Sidebar -->
+    <div class="account-sidebar">
+      <p id="hi-user" class="sidebar-greeting">Hi, User</p>
+      <button class="sidebar-button active">My Profile</button>
+      <button class="sidebar-button">Security & Privacy</button>
+      <button class="sidebar-button">Notifications</button>
+      <button class="sidebar-button">Billing</button>
+      <button class="sidebar-button logout" onclick="logout()">Log Out</button>
+      <button onclick="window.location.href='index.html'" class="back-button">← Back</button>
+    </div>
+
+    <!-- Main Info -->
+    <div class="account-main">
+      <div class="info-card">
+        <div class="card-header">
+          <h3>Personal Information</h3>
+          <button class="edit-button">Edit</button>
+        </div>
+        <div class="info-grid">
+          <div>
+            <label>First Name</label>
+            <p id="firstName">-</p>
+          </div>
+          <div>
+            <label>Last Name</label>
+            <p id="lastName">-</p>
+          </div>
+          <div>
+            <label>Email Address</label>
+            <p id="email">-</p>
+          </div>
+          <div>
+            <label>Country</label>
+            <p class="placeholder">-</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-header">
+          <h3>Your Information</h3>
+          <button class="edit-button">Edit</button>
+        </div>
+        <div class="info-grid">
+          <div>
+            <label>Yearly Income</label>
+            <p id="income">-</p>
+          </div>
+          <div>
+            <label>Net Worth</label>
+            <p id="netWorth">-</p>
+          </div>
+          <div>
+            <label>Total Debt</label>
+            <p id="debt">-</p>
+          </div>
+          <div>
+            <label>Monthly Debt Payments</label>
+            <p id="payments">-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+
+    if (user) {
+      document.getElementById('hi-user').innerText = `Hi, ${user.firstName || 'User'}`;
+      document.getElementById('firstName').innerText = user.firstName || '-';
+      document.getElementById('lastName').innerText = user.lastName || '-';
+      document.getElementById('email').innerText = user.email || '-';
+      document.getElementById('income').innerText = user.yearlyIncome ? `$${user.yearlyIncome}` : '-';
+      document.getElementById('debt').innerText = user.totalDebt ? `$${user.totalDebt}` : '-';
+      document.getElementById('payments').innerText = user.monthlyPayments ? `$${user.monthlyPayments}` : '-';
+      document.getElementById('netWorth').innerText = user.netWorth ? `$${user.netWorth}` : '-';
+
+    }
+
+    function logout() {
+      localStorage.removeItem('bdgtrUser');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

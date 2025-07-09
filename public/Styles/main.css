@@ -1,0 +1,479 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Full-width flex wrapper for header */
+.nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Grouping left and right */
+.nav-left,
+.nav-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Style nav + auth buttons */
+.nav-button,
+.auth-buttons button {
+  all: unset;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  background-color: #26a69a;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 45px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-button.active {
+  background-color: #f9bc60;
+  color: #004643;
+}
+
+.nav-button:hover,
+.auth-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-button.active {
+  background-color: #f9bc60;
+  color: #004643;
+}
+
+/* Main Section */
+.main-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #004643;
+}
+/* Logo styling inside the main section */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 250px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.start-button {
+  padding: 0.75rem 2rem; /* wider */
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tagline */
+.tagline {
+  background-color: white;
+  text-align: center;
+  padding: 2rem;
+}
+.tagline h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* About Us */
+.about-us {
+  display: flex;
+  background-color: #004643;
+  color: #fffffe;
+  padding: 3rem 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0rem 0; /* remove horizontal padding */
+}
+.about-image {
+  flex: 1;
+  padding: 0; /* remove padding */
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+
+.about-text {
+  flex: 2;
+  padding: 1rem;
+}
+
+/* Testimonials */
+.testimonials {
+  padding: 3rem 2rem;
+  background-color: #004d40;
+  color: white;
+  text-align: center;
+}
+.testimonial-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial {
+  flex: 0 0 auto;
+  width: 250px;
+  padding: 0;
+}
+
+.testimonial img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+}
+
+
+/* Footer */
+.footer {
+  background-color: #fffffe;
+  color: #001F1D;
+  text-align: center;
+  padding: 1rem 0;
+}
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.footer ul li a {
+  color: #001F1D;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Container for responsive width */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #004643;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: #26a69a;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex: 1;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.primary-button {
+    background-color: #002f2e;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* ← Add this line */
+}
+
+body {
+  flex: 1;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 25px;
+  background-color: #00332e;
+  color: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder {
+  color: #ccc;
+}
+
+
+/* --- Container Layout --- */
+.verdict-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1rem;
+    min-height: 90vh;
+    background-color: #eaf6f5;
+}
+
+.verdict-box {
+    background-color: white;
+    border: 4px solid #007472;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* --- Title --- */
+.verdict-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #003b38;
+    margin-bottom: 2rem;
+}
+
+/* --- Checkpoints --- */
+.checkpoints {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.checkpoint {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #c2e2dd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #003b38;
+    font-weight: bold;
+}
+
+.checkpoint.filled {
+    background-color: #003b38;
+}
+
+.checkpoint.empty {
+    background-color: #c2e2dd;
+    border: 2px dashed #7a7a7a;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    color: #999;
+}
+
+/* --- Verdict Message --- */
+.verdict-message h3 {
+    font-size: 1.5rem;
+    color: #003b38;
+    margin-bottom: 0.5rem;
+}
+
+.verdict-message p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+/* --- Buttons --- */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.primary-button {
+    background-color: #002f2e;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+    background-color: #004744;
+}
+
+/* --- Nav Bar (top) --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #004643;
+    color: white;
+    padding: 0.75rem 1.5rem;
+}
+
+.nav-left a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.nav-btn {
+    background-color: #b2dcd9;
+    color: #003b38;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #92c9c5;
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-section {
+    padding: 2rem 1rem;
+  }
+
+  .start-button {
+    width: 100%;
+  }
+
+  .about-us {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-image,
+  .about-text {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .testimonial-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonial {
+    width: 90%;
+  }
+
+
+  .footer ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

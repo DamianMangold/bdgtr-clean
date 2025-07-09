@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Verdict</title>
+  <link rel="stylesheet" href="Styles/main.css">
+  <link rel="stylesheet" href="Styles/verdict.css">
+  
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn">Sign Up</button>
+      <button class="nav-btn">Sign In</button>
+    </div>
+  </header>
+
+  <main class="verdict-container">
+    <div class="verdict-box">
+      <!-- Dynamic Verdict Section -->
+      <section class="verdict-message">
+        <h3>Loading your verdict...</h3>
+        <p>Please wait while we evaluate your purchase decision.</p>
+      </section>
+
+      <!-- Static Buttons -->
+      <div class="button-group">
+        <button class="primary-button">Find Cheaper Alternatives</button>
+        <button class="primary-button">Create Savings Plan</button>
+        <a href="purchaseinfo.html" class="primary-button">Evaluate Again</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toggle button + hidden section BELOW verdict container -->
+  <div style="text-align: center; margin: 2rem auto; max-width: 900px;">
+    <button onclick="toggleInputs()" class="primary-button" style="margin-bottom: 1rem;">Toggle Submitted Info</button>
+    <div id="verdict-output" style="display: none; background-color: #f8f8f8; padding: 1.5rem; border-radius: 10px; text-align: left;"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
+      const purchase = JSON.parse(localStorage.getItem('bdgtrPurchaseData') || '{}');
+      const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+      if (user && authButtons) {
+        authButtons.innerHTML = `
+          <a href="account.html">
+            <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+          </a>
+        `;
+      }
+
+      async function fetchVerdict() {
+        const inputForAI = {
+          user: {
+            income: user.yearlyIncome,
+            netWorth: user.netWorth,
+            totalDebt: user.totalDebt,
+            monthlyPayments: user.monthlyPayments,
+            currentCash: user.cashOnHand
+          },
+          purchase: {
+            what: purchase.whatBuying,
+            cost: purchase.cost,
+            necessity: purchase.necessity,
+            recurring: purchase.recurring,
+            recurringFrequency: purchase.recurringFrequency,
+            recurringCost: purchase.recurringCost,
+            otherInfo: purchase.otherInfo
+          }
+        };
+
+        try {
+          const response = await fetch('http://localhost:3000/get-verdict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(inputForAI)
+          });
+
+          const data = await response.json();
+          const verdictBox = document.querySelector('.verdict-message');
+          verdictBox.innerHTML = `<h3>Your Verdict</h3><p>${data.verdict}</p>`;
+        } catch (err) {
+          console.error('Error fetching AI verdict:', err);
+          document.querySelector('.verdict-message').innerHTML = `<h3>Error</h3><p>Unable to generate verdict at this time.</p>`;
+        }
+      }
+
+      fetchVerdict();
+
+      window.toggleInputs = function () {
+        const verdictContainer = document.getElementById('verdict-output');
+        const isVisible = verdictContainer.style.display === 'block';
+
+        if (!isVisible) {
+          verdictContainer.innerHTML = `
+            <h3>Your Submitted Information</h3>
+            <h4>Purchase Info</h4>
+            <p><strong>Item:</strong> ${purchase.whatBuying || '-'}</p>
+            <p><strong>Necessity:</strong> ${purchase.necessity || '-'}</p>
+            <p><strong>Recurring:</strong> ${purchase.recurring || '-'}</p>
+            <p><strong>Cost:</strong> $${purchase.cost || '-'}</p>
+            <p><strong>Frequency:</strong> ${purchase.recurringFrequency || '-'}</p>
+            <p><strong>Recurring Cost:</strong> $${purchase.recurringCost || '-'}</p>
+            <p><strong>Other Info:</strong> ${purchase.otherInfo || '-'}</p>
+
+            <h4>Financial Info</h4>
+            <p><strong>Yearly Income:</strong> $${user.yearlyIncome || '-'}</p>
+            <p><strong>Net Worth:</strong> $${user.netWorth || '-'}</p>
+            <p><strong>Total Debt:</strong> $${user.totalDebt || '-'}</p>
+            <p><strong>Monthly Payments:</strong> $${user.monthlyPayments || '-'}</p>
+            <p><strong>Current Cash:</strong> $${user.cashOnHand || '-'}</p>
+          `;
+          verdictContainer.style.display = 'block';
+        } else {
+          verdictContainer.style.display = 'none';
+        }
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debt Check - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css">
+  <link rel="stylesheet" href="Styles/debt-check.css">
+</head>
+<body>
+
+  <div class="signup-container">
+    <div class="signup-right">
+      <h2>Do You Have Debt?</h2>
+      <form id="debt-check-form">
+
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="hasDebt" value="yes" onclick="toggleCheckbox(this)"> Yes
+          </label>
+          <label>
+            <input type="checkbox" name="hasDebt" value="no" onclick="toggleCheckbox(this)"> No
+          </label>
+        </div>
+
+        <p>ℹ️ Please do not check “Yes” if it's credit card debt that you can 100% pay off as normal. Only select if you owe interest.</p>
+
+        <div class="button-row">
+          <button type="button" onclick="window.location.href='income-cash.html'">Back</button>
+          <button type="button" onclick="window.location.href='index.html'">Skip</button>
+          <button type="submit">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  function toggleCheckbox(clickedBox) {
+    const checkboxes = document.querySelectorAll('input[name="hasDebt"]');
+    checkboxes.forEach(box => {
+      if (box !== clickedBox) box.checked = false;
+    });
+  }
+
+  document.querySelector('#debt-check-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const checkedBox = document.querySelector('input[name="hasDebt"]:checked');
+    if (!checkedBox) {
+      alert("Please select an option.");
+      return;
+    }
+
+    const hasDebt = checkedBox.value;
+    localStorage.setItem('debtCheckData', JSON.stringify({ hasDebt }));
+
+    if (hasDebt === 'yes') {
+      window.location.href = 'debt-details.html';
+    } else {
+      const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+      const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
+
+      const fullUserData = {
+        ...signupData,
+        ...incomeCashData,
+        hasDebt
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fullUserData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
+          window.location.href = 'index.html';
+        } else {
+          alert(result.message || "Signup failed.");
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
+  });
+</script>
+</body>
+</html>

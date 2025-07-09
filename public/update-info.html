@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Info - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css" />
+  <link rel="stylesheet" href="Styles/purchaseinfo.css" />
+  <link rel="stylesheet" href="Styles/updateinfo.css" />
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2 class="form-title">Final Step</h2>
+    <p class="form-subtitle">We just need your current cash, and anything else you'd like to update.</p>
+
+    <form id="updateForm">
+      <label>How much cash do you currently have?
+        <input type="number" class="form-input" name="cashOnHand" required />
+      </label>
+    </form>
+
+    <div class="button-row">
+      <button id="submitBtn" class="start-button" style="background-color: #F9BC60; color: black;">Get Verdict</button>
+      <a href="purchaseinfo.html"><button type="button" class="start-button">Back</button></a>
+    </div>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
+    const form = document.getElementById('updateForm');
+
+    const profileFields = [
+      { key: 'yearlyIncome', label: 'Yearly Income (CAD)', type: 'number' },
+      { key: 'netWorth', label: 'Net Worth (CAD)', type: 'number' },
+      { key: 'totalDebt', label: 'Total Debt (CAD)', type: 'number' },
+      { key: 'monthlyPayments', label: 'Monthly Debt Payments (CAD)', type: 'number' }
+    ];
+
+    profileFields.forEach(field => {
+      if (!user[field.key]) {
+        const wrapper = document.createElement('label');
+        wrapper.innerText = field.label;
+        const input = document.createElement('input');
+        input.type = field.type;
+        input.name = field.key;
+        input.classList.add('form-input');
+        wrapper.appendChild(input);
+        form.appendChild(wrapper);
+      }
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      const inputs = form.querySelectorAll('input');
+      inputs.forEach(input => {
+        if (input.value) {
+          user[input.name] = input.value;
+        }
+      });
+      localStorage.setItem('bdgtrUser', JSON.stringify(user));
+      window.location.href = 'verdict.html';
+    });
+  </script>
+</body>
+</html>

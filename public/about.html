@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - BDGTR</title>
+  <link rel="stylesheet" href="styles/main.css" /> 
+  <link rel="stylesheet" href="styles/about.css" />
+</head>
+<body>
+  <!-- Navigation -->
+<header class="navbar">
+  <div class="nav-wrapper">
+    <div class="nav-left">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+      <a href="about.html"><button class="nav-button active">About Us</button></a>
+    </div>
+  </div>
+</header>
+
+  <!-- About Section -->
+  <section class="about-hero">
+    <div class="about-text">
+      <h1>We Simplify Your Financial Decisions</h1>
+      <p>
+        BDGTR is your smart shopping companion. We help you pause and think before you buy.
+      </p>
+      <p>
+        Using AI, BDGTR evaluates your potential purchase by asking the right questions,
+        offering personalized insights, and highlighting factors you might overlook—so you can make
+        confident, intentional decisions with your money.
+      </p>
+      <p>
+        Whether you're shopping for tech, clothes, or experiences, BDGTR helps you stay aligned
+        with your goals, values, and budget—without guilt or guesswork.
+      </p>
+      <p>Smarter choices. Better spending. BDGTR.</p>
+      <a href="purchaseinfo.html"><button class="try-button">Try BDGTR</button></a>
+
+    </div>
+    <div class="about-image">
+      <img src="Images/aboutus-photo.png" alt="About BDGTR" />
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="footer">
+    <ul>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="termsofservice.html">Terms of Service</a></li>
+    </ul>
+  </footer>
+  <!-- Place this script at the bottom of each HTML file before </body> -->
+<script>
+const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+if (user && authButtons) {
+  authButtons.innerHTML = `
+    <a href="account.html">
+      <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+    </a>
+  `;
+}
+</script>
+</body>
+</html>

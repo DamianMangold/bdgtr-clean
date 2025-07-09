@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Income & Cash - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css" />
+  <link rel="stylesheet" href="Styles/income-cash.css" />
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="index.html"><button class="nav-button">Home</button></a>
+    </div>
+  </header>
+
+  <main class="container" style="background-color: white; padding: 3rem; border-radius: 15px; max-width: 900px; margin-top: 3rem;">
+    <h1 style="text-align: center; color: #002e2c;">Your Income & Cash</h1>
+
+    <form id="income-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <label>Estimated Yearly Income (CAD)
+        <input type="number" id="yearlyIncome" name="yearlyIncome" placeholder="e.g. 45000" class="form-input" required />
+      </label>
+
+      <label>Cash in Account (approximate)
+        <input type="number" id="cashOnHand" name="cashOnHand" placeholder="e.g. 3000" class="form-input" required />
+      </label>
+
+      <label>Estimated Net Worth
+        <input type="number" id="netWorth" name="netWorth" placeholder="e.g. 10000" class="form-input" required />
+      </label>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="sign-up.html"><button type="button" class="start-button">Back</button></a>
+        <a href="debt-check.html"><button type="button" class="start-button">Skip</button></a>
+        <button type="submit" class="start-button">Next</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    document.querySelector('#income-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const yearlyIncome = document.querySelector('#yearlyIncome').value;
+      const cashOnHand = document.querySelector('#cashOnHand').value;
+      const netWorth = document.querySelector('#netWorth').value;
+
+      localStorage.setItem('incomeCashData', JSON.stringify({ yearlyIncome, cashOnHand, netWorth }));
+
+      window.location.href = 'debt-check.html';
+    });
+  </script>
+</body>
+</html>

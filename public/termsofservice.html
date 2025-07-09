@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li><a href="index.html"><button class="nav-button">Home</button></a></li>
+        <li><a href="about.html"><button class="nav-button">About Us</button></a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="signup.html"><button>Sign Up</button></a>
+        <a href="login.html"><button>Log In</button></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 3rem 1rem; color: #000000;">
+    <h1>Terms of Service</h1>
+    <p>Effective Date: June 2025</p>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using BDGTR, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+
+    <h2>2. Use of the Service</h2>
+    <p>BDGTR is a smart shopping decision tool that uses AI to evaluate financial purchases and provide insights. The Service is intended for personal, non-commercial use only. You agree to use the platform in accordance with all applicable laws and regulations.</p>
+
+    <h2>3. No Financial Advice</h2>
+    <p>BDGTR is not a financial advisor, nor does it provide financial, investment, legal, or tax advice. All content provided by BDGTR is for informational purposes only. You agree that any decisions made based on our tool are solely your responsibility, and BDGTR shall not be held liable for any financial loss or consequences resulting from decisions you make using our platform.</p>
+
+    <h2>4. User Responsibilities</h2>
+    <p>You are responsible for the accuracy of any information you input into the BDGTR platform. Misuse of the tool, including automated or fraudulent input, is strictly prohibited.</p>
+
+    <h2>5. Privacy</h2>
+    <p>We value your privacy. Please review our Privacy Policy to understand how we collect and use your data.</p>
+
+    <h2>6. Limitation of Liability</h2>
+    <p>BDGTR and its affiliates shall not be liable for any indirect, incidental, special, or consequential damages arising from the use or inability to use the service. This includes, without limitation, damages for loss of profits, data, or other intangibles.</p>
+
+    <h2>7. Modifications to the Service</h2>
+    <p>We reserve the right to modify or discontinue the Service at any time, with or without notice. We are not liable to you or any third party for any modification, suspension, or discontinuance of the Service.</p>
+
+    <h2>8. Governing Law</h2>
+    <p>These Terms of Service shall be governed by and construed in accordance with the laws of the Province of Ontario, Canada, without regard to its conflict of law principles.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions about these Terms, please contact us via the contact form on our website.</p>
+  </main>
+
+  <footer class="footer">
+    <ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="termsofservice.html">Terms of Service</a></li>
+    </ul>
+  </footer>
+  <!-- Place this script at the bottom of each HTML file before </body> -->
+<script>
+const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+if (user && authButtons) {
+  authButtons.innerHTML = `
+    <a href="account.html">
+      <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+    </a>
+  `;
+}
+</script>
+</body>
+</html>

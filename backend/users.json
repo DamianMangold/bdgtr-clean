@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Damian",
+    "email": "damian@email.ca",
+    "password": "$2b$10$Tzyx509uEZE/vLeY/sekYeIARJ/z9eCtiNGQBo6TOQcll8qD1ascK"
+  },
+  {
+    "name": "Robert Pritchet",
+    "email": "robert@gmail.com",
+    "password": "$2b$10$4Yj5R8JfvZLabKcGhrwzhOE5MAlxJtwQwti1dy/FXEB/ADffPu6V2"
+  },
+  {
+    "email": "jeagle@email.com",
+    "password": "$2b$10$m4be0pTGK/nEpNMBZvzwzOxDagncWP4RF.FPaB0WTb/4/mJ9Mrxci"
+  },
+  {
+    "email": "jsmeagle@email.com",
+    "password": "$2b$10$GxhQoqCGaiPi2GNzJlcwX.ze7hD19bf06GL4rlakLiQAxpIxjoEA."
+  },
+  {
+    "email": "jbeagle@email.com",
+    "password": "$2b$10$RQotv1SkWPqb/Nk99/ezI.yPiggprgOU5kquZcqIwdKDszLEkZ0TK"
+  },
+  {
+    "email": "example@email.com",
+    "password": "$2b$10$Ug95id7q3lF071FOvr5bs.muCLETTWVK494XXH1MHeUBxmPZZa3Qm"
+  },
+  {
+    "email": "johnnyboy@email.com",
+    "password": "$2b$10$KAUU/GWrhTJJapNrPhvMxe5BH.jafpWcFH7FGOg8RdbrIp8ut6SKu"
+  },
+  {
+    "email": "jt@email.com",
+    "password": "$2b$10$IIf7Eyd2IY7C9xQ5EaQF6.uHRLzvex7cY.T8T/H4zTXO7Mf3LwsSC"
+  }
+]

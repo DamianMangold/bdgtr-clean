@@ -1,0 +1,61 @@
+/* verdict.css */
+
+body {
+  background-color: 004d47;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #004643;
+}
+.verdict-container {
+  background-color: #004643;
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 900px;
+  border-radius: 1rem;
+  box-shadow: 0 0 0 3px #004643;
+}
+
+.verdict-box {
+  padding: 3rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.verdict-box h3 {
+  color: #002b26;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.verdict-box p {
+  color: #2d2d2d;
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.primary-button {
+  background-color: #004643;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+  background-color: #005249;
+}

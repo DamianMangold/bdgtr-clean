@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Info - BDGTR</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/purchaseinfo.css">
+</head>
+<body>
+  <header class="navbar">
+  <div class="nav-left">
+    <a href="index.html"><button class="nav-button">Home</button></a>
+  </div>
+</header>
+
+
+  <main class="container" style="background-color: white; padding: 3rem; border-radius: 15px; max-width: 900px; margin-top: 3rem;">
+    <h1 style="text-align: center; color: #002e2c;">What are you buying?</h1>
+
+
+    <form id="purchaseForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <label>What are you buying?
+        <input type="text" class="form-input" />
+      </label>
+
+      <label>How necessary is this purchase
+        <select class="form-input">
+          <option value="">Select</option>
+          <option value="essential">Essential</option>
+          <option value="moderate">Moderate</option>
+          <option value="optional">Optional</option>
+        </select>
+      </label>
+
+      <label>Any recurring payments?
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <label><input type="checkbox" /> Yes</label>
+          <label><input type="checkbox" /> No</label>
+        </div>
+      </label>
+
+      <label>How much does it cost?
+        <input type="number" class="form-input" />
+      </label>
+
+      <label>If recurring what is the payment frequency and cost
+        <div style="display: flex; gap: 1rem;">
+          <input type="text" class="form-input" placeholder="Frequency" />
+          <input type="number" class="form-input" placeholder="Cost" />
+        </div>
+      </label>
+
+      <label>Any other important information?
+        <input type="text" class="form-input" />
+      </label>
+
+      <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="index.html"><button type="button" class="start-button">Back</button></a>
+        <button type="submit" class="start-button">Next</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+  const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+  const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+  if (user && authButtons) {
+    authButtons.innerHTML = `
+      <a href="account.html">
+        <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+      </a>
+    `;
+  }
+
+  // Save form data to localStorage and navigate
+  const form = document.getElementById('purchaseForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = {
+        whatBuying: form.querySelector('input[type="text"]')?.value,
+        necessity: form.querySelector('select')?.value,
+        recurring: form.querySelectorAll('input[type="checkbox"]')[0]?.checked ? 'yes' : 'no',
+        cost: form.querySelector('input[type="number"]')?.value,
+        recurringFrequency: form.querySelectorAll('input[type="text"]')[1]?.value,
+        recurringCost: form.querySelectorAll('input[type="number"]')[1]?.value,
+        otherInfo: form.querySelectorAll('input[type="text"]')[2]?.value,
+      };
+      localStorage.setItem('bdgtrPurchaseData', JSON.stringify(data));
+      window.location.href = 'update-info.html';
+    });
+  }
+  </script>
+</body>
+</html>

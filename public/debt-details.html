@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Debt Details - BDGTR</title>
+  <link rel="stylesheet" href="Styles/main.css">
+  <link rel="stylesheet" href="Styles/signup.css">
+  <link rel="stylesheet" href="Styles/debt-details.css">
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-right">
+      <h2>Tell Us About Your Debt</h2>
+
+      <form id="debt-details-form">
+        <label>What type of debt do you have? (Select all that apply)</label>
+        <div class="checkbox-list">
+          <label><input type="checkbox" name="debtType" value="credit"> Credit card</label>
+          <label><input type="checkbox" name="debtType" value="student"> Student loans</label>
+          <label><input type="checkbox" name="debtType" value="mortgage"> Mortgage</label>
+          <label><input type="checkbox" name="debtType" value="auto"> Auto loans</label>
+          <label><input type="checkbox" name="debtType" value="personal"> Personal loans</label>
+          <label><input type="checkbox" name="debtType" value="bnpl"> Buy-now-pay-later</label>
+          <label><input type="checkbox" name="debtType" value="other"> Other</label>
+        </div>
+
+        <input type="text" name="otherDebt" placeholder="Other debt type" class="text-input">
+
+        <label for="totalDebt">Total Current Debt (CAD)</label>
+        <input type="number" name="totalDebt" id="totalDebt" placeholder="e.g. 15000" class="text-input">
+
+        <label for="monthlyPayments">Total Monthly Debt Payments (CAD)</label>
+        <input type="number" name="monthlyPayments" id="monthlyPayments" placeholder="e.g. 800" class="text-input">
+        <p style="font-size: 0.9em; color: #666;">ℹ️ This includes minimum payments on all debts.</p>
+
+        <label>Are you currently behind on any payments?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="behindPayments" value="yes" onclick="toggleCheckbox(this, 'behindPayments')"> Yes</label>
+          <label><input type="checkbox" name="behindPayments" value="no" onclick="toggleCheckbox(this, 'behindPayments')"> No</label>
+          <label><input type="checkbox" name="behindPayments" value="skip" onclick="toggleCheckbox(this, 'behindPayments')"> Skip</label>
+        </div>
+
+        <div>
+          <button type="button" onclick="window.location.href='debt-check.html'" class="signup-button outline">Back</button>
+          <button type="submit" class="signup-button">Submit</button>
+          <button type="button" onclick="window.location.href='index.html'" class="signup-button outline">Skip</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleCheckbox(clickedBox, groupName) {
+      const group = document.querySelectorAll(`input[name="${groupName}"]`);
+      group.forEach(box => {
+        if (box !== clickedBox) box.checked = false;
+      });
+    }
+
+    document.querySelector('#debt-details-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const debtTypes = Array.from(form.querySelectorAll('input[name="debtType"]:checked')).map(input => input.value);
+      const otherDebt = form.otherDebt.value;
+      const totalDebt = form.totalDebt.value;
+      const monthlyPayments = form.monthlyPayments.value;
+      const behindBox = form.querySelector('input[name="behindPayments"]:checked');
+      const behindPayments = behindBox ? behindBox.value : '';
+
+      const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+      const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
+      const debtCheckData = JSON.parse(localStorage.getItem('debtCheckData') || '{}');
+
+      const fullUserData = {
+        ...signupData,
+        ...incomeCashData,
+        ...debtCheckData,
+        debtTypes,
+        otherDebt,
+        totalDebt,
+        monthlyPayments,
+        behindPayments
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fullUserData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
+          window.location.href = 'index.html'; // You can change this to 'account.html'
+        } else {
+          alert(result.message || "Signup failed.");
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
