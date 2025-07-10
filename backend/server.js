@@ -3,9 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { PrismaClient } = require('@prisma/client');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const prisma = new PrismaClient();
 
 // Middleware
 app.use(cors());
@@ -23,36 +25,47 @@ app.get('/', (req, res) => {
 const decisionRouter = require('./routes/aidecision');
 app.use('/', decisionRouter);
 
-// In-memory user store (can be replaced with database)
-const users = [];
-
-// Sign up route
-app.post('/signup', (req, res) => {
+// Signup route using Prisma
+app.post('/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({ message: 'Missing required fields.' });
   }
 
-  const userExists = users.find(u => u.email === email);
-  if (userExists) {
-    return res.status(400).json({ message: 'User already exists.' });
-  }
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists.' });
+    }
 
-  users.push({ firstName, lastName, email, password });
-  res.status(200).json({ message: 'Account created successfully!' });
+    const newUser = await prisma.user.create({
+      data: { email, password, name: `${firstName} ${lastName}` },
+    });
+
+    res.status(200).json({ message: 'Account created successfully!', user: newUser });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
 });
 
-// Log in route
-app.post('/login', (req, res) => {
+// Login route using Prisma
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find(u => u.email === email && u.password === password);
-  if (!user) {
-    return res.status(401).json({ message: 'Invalid credentials.' });
-  }
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
 
-  res.status(200).json({ message: 'Login successful', user });
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: 'Invalid credentials.' });
+    }
+
+    res.status(200).json({ message: 'Login successful', user });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
 });
 
 // Start server
