@@ -75,6 +75,68 @@
     </div>
   </section>
 
+  <!-- Resources Section -->
+<section class="resources-section">
+  <div class="resources-content">
+    <div class="resources-text">
+      <h2>Resources</h2>
+      <p>
+        BDGTR is more than a tool. It is a resource hub. Our goal is to give everyone the tools to achieve their financial goals.
+        To do so we are always on the look to provide you the most up to date information and personal finance tools.
+      </p>
+      <p>
+        Check out our resources page to find budget templates, personal finance blogs and to subscribe to our newsletter.
+      </p>
+      <a href="resources.html"> <button class="start-button">Resources</button></a>
+
+    </div>
+
+    <!-- Carousel Image Container -->
+    <div class="resources-carousel">
+      <div class="carousel-slide active">
+        <img src="images/budget_templates.png" alt="Free Budget Templates">
+      </div>
+      <div class="carousel-slide">
+        <img src="images/blog.png" alt="Finance Blog">
+      </div>
+      <div class="carousel-slide">
+        <img src="images/newsletter.png" alt="Newsletter">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Carousel Script -->
+<script>
+  const slides = document.querySelectorAll('.carousel-slide');
+  let current = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+  }
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  }
+
+  setInterval(nextSlide, 3000);
+</script>
+
+<!-- Privacy Section -->
+<section class="privacy-section">
+  <div class="privacy-text">
+    <h2>Commitment to privacy</h2>
+    <p>We do not share our personal information with affiliated third parties for their own marketing purposes.</p>
+  </div>
+  <div class="privacy-image">
+    <img src="images/privacy-icon.png" alt="Privacy Icon">
+  </div>
+</section>
+
+
   <!-- Footer -->
   <footer class="footer">
     <ul>
