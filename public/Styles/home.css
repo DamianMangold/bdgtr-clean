@@ -92,3 +92,51 @@
 }
 
 
+/* Main Section */
+.main-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #004643;
+}
+/* Logo styling inside the main section */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 250px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.start-button {
+  padding: 0.75rem 2rem; /* wider */
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Tagline */
+.tagline {
+  background-color: white;
+  text-align: center;
+  padding: 2rem;
+}
+.tagline h1 {
+  margin: 0;
+  font-size: 2rem;
+}

@@ -1,0 +1,114 @@
+/* Full-width flex wrapper for header */
+.nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Grouping left and right */
+.nav-left,
+.nav-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Style nav + auth buttons */
+.nav-button,
+.auth-buttons button {
+  all: unset;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  background-color: #26a69a;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 45px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-button.active {
+  background-color: #f9bc60;
+  color: #004643;
+}
+
+.nav-button:hover,
+.auth-buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-button.active {
+  background-color: #f9bc60;
+  color: #004643;
+}
+
+
+/* Navbar styles */
+.navbar {
+  background-color: #004643;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* --- Nav Bar (top) --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #004643;
+    color: white;
+    padding: 0.75rem 1.5rem;
+}
+
+.nav-left a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.nav-btn {
+    background-color: #b2dcd9;
+    color: #003b38;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #92c9c5;
+}

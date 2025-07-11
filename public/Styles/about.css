@@ -87,6 +87,34 @@ body {
   text-decoration: none;
   font-size: 1.1rem;
 }
+/* About Us */
+.about-us {
+  display: flex;
+  background-color: #004643;
+  color: #fffffe;
+  padding: 3rem 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0rem 0; /* remove horizontal padding */
+}
+.about-image {
+  flex: 1;
+  padding: 0; /* remove padding */
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+
+.about-text {
+  flex: 2;
+  padding: 1rem;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
