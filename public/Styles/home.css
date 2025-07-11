@@ -1,56 +1,79 @@
-/* Full-width flex wrapper for header */
-.nav-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
+/* Main Section with BDGTR Start */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 250px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Grouping left and right */
-.nav-left,
-.nav-right {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+.logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
-/* Style nav + auth buttons */
-.nav-button,
-.auth-buttons button {
-  all: unset;
-  display: inline-block;
-  width: 140px;
-  height: 45px;
-  background-color: #26a69a;
-  color: white;
+.start-button {
+  padding: 0.75rem 2rem; /* wider */
+  background-color: #ffffff;
+  color: #000000;
   font-weight: bold;
-  font-size: 1rem;
-  border-radius: 12px;
-  text-align: center;
-  line-height: 45px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 25px;
   cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-decoration: none;
 }
 
-.nav-button.active {
-  background-color: #f9bc60;
-  color: #004643;
-}
-
-.nav-button:hover,
-.auth-buttons button:hover {
+.start-button:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
-/* Remove anchor styling */
-.nav-left a,
-.nav-right a {
-  text-decoration: none;
+/* About Us Section */
+.about-us {
+  display: flex;
+  background-color: #004643;
+  color: #fffffe;
+  padding: 3rem 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0rem 0; /* remove horizontal padding */
 }
+.about-image {
+  flex: 1;
+  padding: 0; /* remove padding */
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+.about-text {
+  flex: 2;
+  padding: 1rem;
+}
+
+
+/* Make section titles (h2) in about-us and how-it-works larger */
+.about-text h2,
+.how-it-works-text h2 {
+  font-size: 2rem; /* adjust as needed */
+  margin-bottom: 1rem;
+}
+
+
+/* Main Section */
+.main-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #004643;
+}
+
+
+/* How it works section */
 
 .how-it-works {
   display: flex;
@@ -84,59 +107,26 @@
   padding: 1rem;
 }
 
-/* Make section titles (h2) in about-us and how-it-works larger */
-.about-text h2,
-.how-it-works-text h2 {
-  font-size: 2rem; /* adjust as needed */
-  margin-bottom: 1rem;
-}
+@media (max-width: 768px) {
+  .about-us {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
 
+  .about-image,
+  .about-text {
+    width: 100%;
+    padding: 1rem 0;
+  }
 
-/* Main Section */
-.main-section {
-  text-align: center;
-  padding: 4rem 2rem;
-  background-color: #004643;
-}
-/* Logo styling inside the main section */
-.logo {
-  display: block;
-  margin: 0 auto 1.5rem auto;
-  max-width: 250px;
-  height: auto;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
+  .about-image img {
+    max-width: 100%;
+    height: auto;
+  }
 
-.logo:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
-
-.start-button {
-  padding: 0.75rem 2rem; /* wider */
-  background-color: #ffffff;
-  color: #000000;
-  font-weight: bold;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.start-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Tagline */
-.tagline {
-  background-color: white;
-  text-align: center;
-  padding: 2rem;
-}
-.tagline h1 {
-  margin: 0;
-  font-size: 2rem;
+  .about-text {
+    padding: 1rem;
+  }
 }
