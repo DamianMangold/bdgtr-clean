@@ -9,6 +9,11 @@ const openai = new OpenAI({
 router.post("/get-verdict", async (req, res) => {
   const { user, purchase } = req.body;
 
+  // Minimal validation
+  if (!user || !purchase) {
+    return res.status(400).json({ error: "Missing user or purchase data." });
+  }
+
   const prompt = `
 You are an AI helping users evaluate if they should make a purchase. Here's their info:
 

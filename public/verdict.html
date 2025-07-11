@@ -19,13 +19,11 @@
 
   <main class="verdict-container">
     <div class="verdict-box">
-      <!-- Dynamic Verdict Section -->
       <section class="verdict-message">
         <h3>Loading your verdict...</h3>
         <p>Please wait while we evaluate your purchase decision.</p>
       </section>
 
-      <!-- Static Buttons -->
       <div class="button-group">
         <button class="primary-button">Find Cheaper Alternatives</button>
         <button class="primary-button">Create Savings Plan</button>
@@ -34,7 +32,6 @@
     </div>
   </main>
 
-  <!-- Toggle button + hidden section BELOW verdict container -->
   <div style="text-align: center; margin: 2rem auto; max-width: 900px;">
     <button onclick="toggleInputs()" class="primary-button" style="margin-bottom: 1rem;">Toggle Submitted Info</button>
     <div id="verdict-output" style="display: none; background-color: #f8f8f8; padding: 1.5rem; border-radius: 10px; text-align: left;"></div>
@@ -53,6 +50,8 @@
           </a>
         `;
       }
+
+      const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
 
       async function fetchVerdict() {
         const inputForAI = {
@@ -75,15 +74,18 @@
         };
 
         try {
-          const response = await fetch('/get-verdict', {
+          const response = await fetch(`${API_BASE}/get-verdict`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(inputForAI)
           });
 
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+          }
+
           const data = await response.json();
-          const verdictBox = document.querySelector('.verdict-message');
-          verdictBox.innerHTML = `<h3>Your Verdict</h3><p>${data.verdict}</p>`;
+          document.querySelector('.verdict-message').innerHTML = `<h3>Your Verdict</h3><p>${data.verdict}</p>`;
         } catch (err) {
           console.error('Error fetching AI verdict:', err);
           document.querySelector('.verdict-message').innerHTML = `<h3>Error</h3><p>Unable to generate verdict at this time.</p>`;
