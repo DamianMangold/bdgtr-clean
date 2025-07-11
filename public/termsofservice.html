@@ -10,12 +10,12 @@
   <header class="navbar">
     <div class="container nav-container">
       <ul class="nav-links">
-        <li><a href="index.html"><button class="nav-button">Home</button></a></li>
-        <li><a href="about.html"><button class="nav-button">About Us</button></a></li>
+        <li><a href="index.html" class="nav-button">Home</a></li>
+        <li><a href="about.html" class="nav-button">About Us</a></li>
       </ul>
       <div class="auth-buttons">
-        <a href="signup.html"><button>Sign Up</button></a>
-        <a href="login.html"><button>Log In</button></a>
+        <a href="signup.html" class="nav-button">Sign Up</a>
+        <a href="login.html" class="nav-button">Log In</a>
       </div>
     </div>
   </header>
@@ -59,18 +59,18 @@
       <li><a href="termsofservice.html">Terms of Service</a></li>
     </ul>
   </footer>
-  <!-- Place this script at the bottom of each HTML file before </body> -->
-<script>
-const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
 
-if (user && authButtons) {
-  authButtons.innerHTML = `
-    <a href="account.html">
-      <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
-    </a>
-  `;
-}
-</script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+    const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+    if (user && authButtons) {
+      authButtons.innerHTML = `
+        <a href="account.html">
+          <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+        </a>
+      `;
+    }
+  </script>
 </body>
 </html>

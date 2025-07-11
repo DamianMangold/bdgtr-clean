@@ -9,14 +9,14 @@
 </head>
 <body>
   <!-- Navigation -->
-<header class="navbar">
-  <div class="nav-wrapper">
-    <div class="nav-left">
-      <a href="index.html"><button class="nav-button">Home</button></a>
-      <a href="about.html"><button class="nav-button active">About Us</button></a>
+  <header class="navbar">
+    <div class="nav-wrapper">
+      <div class="nav-left">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="about.html" class="nav-button active">About Us</a>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
   <!-- About Section -->
   <section class="about-hero">
@@ -35,13 +35,13 @@
         with your goals, values, and budget—without guilt or guesswork.
       </p>
       <p>Smarter choices. Better spending. BDGTR.</p>
-      <a href="purchaseinfo.html"><button class="try-button">Try BDGTR</button></a>
-
+      <a href="purchaseinfo.html" class="try-button">Try BDGTR</a>
     </div>
     <div class="about-image">
       <img src="Images/aboutus-photo.png" alt="About BDGTR" />
     </div>
   </section>
+
   <!-- Footer -->
   <footer class="footer">
     <ul>
@@ -49,18 +49,19 @@
       <li><a href="termsofservice.html">Terms of Service</a></li>
     </ul>
   </footer>
-  <!-- Place this script at the bottom of each HTML file before </body> -->
-<script>
-const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
 
-if (user && authButtons) {
-  authButtons.innerHTML = `
-    <a href="account.html">
-      <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
-    </a>
-  `;
-}
-</script>
+  <!-- Place this script at the bottom of each HTML file before </body> -->
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+    const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
+
+    if (user && authButtons) {
+      authButtons.innerHTML = `
+        <a href="account.html">
+          <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
+        </a>
+      `;
+    }
+  </script>
 </body>
 </html>
