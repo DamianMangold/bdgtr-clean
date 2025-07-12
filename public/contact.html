@@ -21,26 +21,26 @@
     </div>
   </header>
 
-  <!-- Contact Section -->
-  <section class="contact-section">
-    <div class="contact-form">
-      <h1>Contact Us</h1>
-      <p>Want To Get A Hold Of Us? Give Us Feedback?<br>We Are Happy To Hear From You.</p>
-
-      <form>
-        <div class="form-row">
-          <input type="text" name="name" placeholder="Name" required>
-          <input type="email" name="email" placeholder="Email" required>
+   <!-- Contact Section -->
+<div class="container">
+  <h1>Contact Us</h1>
+  <form target="_blank" action="https://formsubmit.co/damian@bdgtr.ca" method="POST">
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col">
+          <input type="text" name="name" class="form-control" placeholder="Full Name" required>
         </div>
-        <input type="text" name="subject" placeholder="Subject" required>
-        <textarea name="message" placeholder="Message" required></textarea>
-        <button type="submit" class="submit-button">Submit</button>
-      </form>
+        <div class="col">
+          <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+        </div>
+      </div>
     </div>
-    <div class="contact-image">
-      <img src="images/contact-us.png" alt="Man Smiling" />
+    <div class="form-group">
+      <textarea placeholder="Your Message" class="form-control" name="message" rows="10" required></textarea>
     </div>
-  </section>
+    <button type="submit" class="btn btn-lg btn-dark btn-block">Submit Form</button>
+  </form>
+</div>
 
 <!-- Footer -->
 <footer class="footer">

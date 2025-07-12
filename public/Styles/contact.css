@@ -5,32 +5,36 @@ body {
   background-color: #004643;
 }
 
-/* Contact Section */
-.contact-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 3rem 2rem;
-  flex-wrap: wrap;
-}
-
-.contact-form {
-  flex: 1;
-  padding-right: 2rem;
-  min-width: 300px;
-}
-
-.contact-form h1 {
-  font-size: 2.5rem;
-  color: #F5C97B;
-  margin-bottom: 0.5rem;
-}
-
-.contact-form p {
-  font-size: 1rem;
+/* Style the Contact Us heading */
+.container h1 {
+  color: #F5C97B; /* Brand yellow */
+  font-size: 3rem;
+  font-weight: bold;
   margin-bottom: 2rem;
-  color: #FFFFFE;
 }
+
+/* Style the Submit button */
+button[type="submit"] {
+  background-color: #F9BC60; /* Brand yellow */
+  color: #004643;            /* Dark green text for contrast */
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+/* Hover effect */
+button[type="submit"]:hover {
+  transform: scale(1.05);
+  background-color: #e8aa4a; /* Slightly deeper yellow */
+}
+
+
+/* Contact Section */
 
 .form-row {
   display: flex;
@@ -41,12 +45,15 @@ body {
 
 input, textarea {
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 15px;
+  padding: 1rem;
+  border-radius: 40px;
   border: none;
+  background-color: white;
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   resize: vertical;
+  color: black;
+  box-sizing: border-box;
 }
 
 textarea {
@@ -70,22 +77,6 @@ textarea {
 input,
 textarea {
   width: 100%;
-}
-
-.submit-button {
-  background-color: white;
-  color: black;
-  font-weight: bold;
-  border: none;
-  border-radius: 15px;
-  padding: 0.5rem 1.5rem;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.submit-button:hover {
-  transform: scale(1.05);
 }
 
 .contact-image {
@@ -114,7 +105,6 @@ html, body {
 body {
   flex: 1;
 }
-
 
 
 /* Responsive */
