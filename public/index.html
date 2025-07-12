@@ -175,18 +175,19 @@
 </footer>
 
 
-  <script>
-    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-    const authButtons = document.querySelector('.auth-buttons');
+<script>
+  const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+  const authButtons = document.querySelector('.auth-buttons');
 
-    if (user && authButtons) {
-      authButtons.innerHTML = `
-        <a href="account.html">
-          <img src="Images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
-        </a>
-      `;
-    }
-  </script>
+  if (user && authButtons) {
+    authButtons.innerHTML = `
+      <a href="react/index.html">
+        <img src="images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
+      </a>
+    `;
+  }
+</script>
+
 
 </body>
 </html>
