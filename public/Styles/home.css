@@ -163,10 +163,10 @@
 
 .resources-carousel {
   flex: 1;
-  position: relative;
-  width: 300px;
   height: auto;
-  min-height: 300px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .carousel-slide {
