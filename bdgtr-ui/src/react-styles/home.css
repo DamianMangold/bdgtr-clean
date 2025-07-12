@@ -1,0 +1,324 @@
+/* Main Section with BDGTR Start */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  max-width: 250px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.start-button {
+  padding: 0.75rem 2rem; /* wider */
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Make section titles (h2) in about-us and how-it-works larger */
+.about-text h2,
+.how-it-works-text h2 {
+  font-size: 2rem; /* adjust as needed */
+  margin-bottom: 1rem;
+}
+
+
+/* Main Section */
+.main-section {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #004643;
+}
+
+/*Disclaimer*/
+
+.disclaimer {
+  background-color: #FFFFFE;
+  color: #000;
+  padding: 2rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-top: 1px solid #ccc;
+}
+
+.disclaimer h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* About Us Section */
+.about-us {
+  display: flex;
+  background-color: #004643;
+  color: #fffffe;
+  padding: 3rem 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0rem 0; /* remove horizontal padding */
+}
+.about-image {
+  flex: 1;
+  padding: 0; /* remove padding */
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+.about-text {
+  flex: 2;
+  padding: 1rem;
+}
+
+/* How it works section */
+
+.how-it-works {
+  display: flex;
+  background-color: #ACD1C6;
+  color: #fffffe;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  height: 400px; /* Match about-us height */
+}
+
+.how-it-works-image {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+
+.how-it-works-image img {
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.how-it-works-text {
+  flex: 2;
+  padding: 1rem;
+}
+
+/* Resources Section Layout */
+.resources-section {
+  background-color: #004643;
+  color: #fffffe;
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.resources-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+.resources-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.resources-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #fffffe;
+}
+
+.resources-text p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.resources-carousel {
+  flex: 1;
+  height: auto;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.carousel-slide {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .resources-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .resources-carousel {
+    width: 80%;
+    max-width: 300px;
+  }
+}
+
+/* resources carousel section */
+.resources-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  min-height: 280px;
+  height: auto;
+  max-height: 380px; 
+}
+
+.carousel-slide {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-slide img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+.carousel-slide.active {
+  display: block;
+}
+
+
+
+@media (max-width: 768px) {
+  .about-us {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .about-image,
+  .about-text {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .about-image img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .about-text {
+    padding: 1rem;
+  }
+}
+
+/* Privacy Section Styling */
+.privacy-section {
+  display: flex;
+  height: 400px;
+  width: 100%;
+}
+
+.privacy-text {
+  flex: 1;
+  background-color: #ACD1C6;
+  color: #fffffe;
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.privacy-text h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.privacy-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.privacy-image {
+  flex: 1;
+  background-color: #001F1D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+.privacy-image img {
+  width: 75%;
+  height: auto;
+  max-height: 80%;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .privacy-section {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .privacy-text,
+  .privacy-image {
+    width: 100%;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .privacy-image img {
+    width: 60%;
+    max-height: 200px;
+  }
+}

@@ -1,0 +1,143 @@
+/* verdict.css */
+
+body {
+  background-color: 004d47;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #004643;
+}
+.verdict-container {
+  background-color: #004643;
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 900px;
+  border-radius: 1rem;
+  box-shadow: 0 0 0 3px #004643;
+}
+
+.verdict-box {
+  padding: 3rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.verdict-box h3 {
+  color: #002b26;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.verdict-box p {
+  color: #2d2d2d;
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.primary-button {
+  background-color: #004643;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+  background-color: #005249;
+}
+
+
+/* Below is fron main.css - could delete if not needed */
+
+
+/* --- Container Layout --- */
+.verdict-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1rem;
+    min-height: 90vh;
+    background-color: #eaf6f5;
+}
+
+.verdict-box {
+    background-color: white;
+    border: 4px solid #007472;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* --- Title --- */
+.verdict-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #003b38;
+    margin-bottom: 2rem;
+}
+
+/* --- Checkpoints --- */
+.checkpoints {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.checkpoint {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #c2e2dd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    color: #003b38;
+    font-weight: bold;
+}
+
+.checkpoint.filled {
+    background-color: #003b38;
+}
+
+.checkpoint.empty {
+    background-color: #c2e2dd;
+    border: 2px dashed #7a7a7a;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    color: #999;
+}
+
+/* --- Verdict Message --- */
+.verdict-message h3 {
+    font-size: 1.5rem;
+    color: #003b38;
+    margin-bottom: 0.5rem;
+}
+
+.verdict-message p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
