@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <!-- Header -->
+  <!-- Header -->
   <header class="navbar">
     <div class="nav-wrapper">
       <div class="nav-left">
@@ -23,7 +23,6 @@
       </div>
     </div>
   </header>
-
 
   <main class="verdict-container">
     <div class="verdict-box">
@@ -59,7 +58,8 @@
         `;
       }
 
-      const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+      // ✅ Hardcoded API base to always hit the local backend server
+      const API_BASE = 'http://localhost:3000';
 
       async function fetchVerdict() {
         const inputForAI = {

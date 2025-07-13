@@ -16,7 +16,6 @@
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 </head>
 <body>
-  <!-- React root container -->
   <div id="account-root"></div>
 
   <script type="text/babel">
@@ -27,47 +26,96 @@
         <button className="sidebar-button active" onClick={() => window.location.href = 'account.html'}>
           My Profile
         </button>
-
         <button className="sidebar-button" onClick={() => window.location.href = 'securityandprivacy.html'}>
           Security & Privacy
         </button>
-
         <button className="sidebar-button" onClick={() => window.location.href = 'notifications.html'}>
           Notifications
         </button>
-
         <button className="sidebar-button logout" onClick={() => {
           localStorage.removeItem('bdgtrUser');
           window.location.href = 'index.html';
-        }}>
-          Log Out
-        </button>
-
+        }}>Log Out</button>
         <button className="back-button" onClick={() => window.location.href = 'index.html'}>
           ← Back
         </button>
       </div>
     );
 
-    const InfoCard = ({ title, fields }) => (
-      <div className="info-card">
-        <div className="card-header">
-          <h3>{title}</h3>
-          <button className="edit-button">Edit</button>
+    const InfoCard = ({ title, fields, onSave }) => {
+      const [editing, setEditing] = React.useState(false);
+      const [formData, setFormData] = React.useState(fields);
+
+      const handleChange = (label, value) => {
+        setFormData(prev =>
+          prev.map(f => f.label === label ? { ...f, value } : f)
+        );
+      };
+
+      const handleSave = () => {
+        setEditing(false);
+        onSave(formData);
+      };
+
+      return (
+        <div className="info-card">
+          <div className="card-header">
+            <h3>{title}</h3>
+            {editing ? (
+              <button className="edit-button" onClick={handleSave}>Save</button>
+            ) : (
+              <button className="edit-button" onClick={() => setEditing(true)}>Edit</button>
+            )}
+          </div>
+          <div className="info-grid">
+            {formData.map(({ label, value }) => (
+              <div key={label}>
+                <label>{label}</label>
+                {editing ? (
+                  <input
+                    type="text"
+                    value={value || ''}
+                    onChange={e => handleChange(label, e.target.value)}
+                  />
+                ) : (
+                  <p>{value || '-'}</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="info-grid">
-          {fields.map(({ label, value }) => (
-            <div key={label}>
-              <label>{label}</label>
-              <p>{value || '-'}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+      );
+    };
 
     const AccountPage = () => {
-      const user = JSON.parse(localStorage.getItem('bdgtrUser')) || {};
+      const [user, setUser] = React.useState(
+        JSON.parse(localStorage.getItem('bdgtrUser')) || {}
+      );
+
+      const savePersonal = (updatedFields) => {
+        const updated = { ...user };
+        updatedFields.forEach(f => {
+          if (f.label === 'First Name') updated.firstName = f.value;
+          if (f.label === 'Last Name') updated.lastName = f.value;
+          if (f.label === 'Email Address') updated.email = f.value;
+          if (f.label === 'Country') updated.country = f.value;
+        });
+        setUser(updated);
+        localStorage.setItem('bdgtrUser', JSON.stringify(updated));
+      };
+
+      const saveFinancial = (updatedFields) => {
+        const updated = { ...user };
+        updatedFields.forEach(f => {
+          const number = f.value.replace(/[^0-9.]/g, '');
+          if (f.label === 'Yearly Income') updated.yearlyIncome = number;
+          if (f.label === 'Net Worth') updated.netWorth = number;
+          if (f.label === 'Total Debt') updated.totalDebt = number;
+          if (f.label === 'Monthly Debt Payments') updated.monthlyPayments = number;
+        });
+        setUser(updated);
+        localStorage.setItem('bdgtrUser', JSON.stringify(updated));
+      };
 
       const personalFields = [
         { label: 'First Name', value: user.firstName },
@@ -77,29 +125,24 @@
       ];
 
       const financialFields = [
-        { label: 'Yearly Income', value: user.yearlyIncome ? `$${user.yearlyIncome}` : null },
-        { label: 'Net Worth', value: user.netWorth ? `$${user.netWorth}` : null },
-        { label: 'Total Debt', value: user.totalDebt ? `$${user.totalDebt}` : null },
-        { label: 'Monthly Debt Payments', value: user.monthlyPayments ? `$${user.monthlyPayments}` : null },
+        { label: 'Yearly Income', value: user.yearlyIncome ? `$${user.yearlyIncome}` : '' },
+        { label: 'Net Worth', value: user.netWorth ? `$${user.netWorth}` : '' },
+        { label: 'Total Debt', value: user.totalDebt ? `$${user.totalDebt}` : '' },
+        { label: 'Monthly Debt Payments', value: user.monthlyPayments ? `$${user.monthlyPayments}` : '' },
       ];
 
       return (
         <div className="account-content">
           <Sidebar user={user} />
           <div className="account-main">
-            <InfoCard title="Personal Information" fields={personalFields} />
-            <InfoCard title="Your Information" fields={financialFields} />
+            <InfoCard title="Personal Information" fields={personalFields} onSave={savePersonal} />
+            <InfoCard title="Your Information" fields={financialFields} onSave={saveFinancial} />
           </div>
         </div>
       );
     };
 
-    try {
-      const root = document.getElementById('account-root');
-      ReactDOM.createRoot(root).render(<AccountPage />);
-    } catch (e) {
-      document.body.innerHTML = '<h2 style="color:red;">React failed to load.</h2><pre>' + e.message + '</pre>';
-    }
+    ReactDOM.createRoot(document.getElementById('account-root')).render(<AccountPage />);
   </script>
 
   <!-- Footer -->
