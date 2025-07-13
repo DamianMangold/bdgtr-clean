@@ -3,96 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <title>Account - BDGTR</title>
-    <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/navigation.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
   <link rel="stylesheet" href="styles/account.css" />
-  <link rel="stylesheet" href="styles/responsive.css">
+  <link rel="stylesheet" href="styles/responsive.css" />
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 </head>
 <body>
-  <div class="account-content">
-    <!-- Sidebar -->
-    <div class="account-sidebar">
-      <p id="hi-user" class="sidebar-greeting">Hi, User</p>
-      <button class="sidebar-button active">My Profile</button>
-      <button class="sidebar-button">Security & Privacy</button>
-      <button class="sidebar-button">Notifications</button>
-      <button class="sidebar-button logout" onclick="logout()">Log Out</button>
-      <button onclick="window.location.href='index.html'" class="back-button">← Back</button>
-    </div>
+  <!-- React root container -->
+  <div id="account-root"></div>
 
-    <!-- Main Info -->
-    <div class="account-main">
-      <div class="info-card">
-        <div class="card-header">
-          <h3>Personal Information</h3>
-          <button class="edit-button">Edit</button>
+  <script type="text/babel">
+    const Sidebar = ({ user }) => (
+      <div className="account-sidebar">
+        <p className="sidebar-greeting">Hi, {(user && user.firstName) || 'User'}</p>
+        <button className="sidebar-button active">My Profile</button>
+        <button className="sidebar-button">Security & Privacy</button>
+        <button className="sidebar-button">Notifications</button>
+        <button
+          className="sidebar-button logout"
+          onClick={() => {
+            localStorage.removeItem('bdgtrUser');
+            window.location.href = 'index.html';
+          }}
+        >
+          Log Out
+        </button>
+        <button onClick={() => window.location.href = 'index.html'} className="back-button">← Back</button>
+      </div>
+    );
+
+    const InfoCard = ({ title, fields }) => (
+      <div className="info-card">
+        <div className="card-header">
+          <h3>{title}</h3>
+          <button className="edit-button">Edit</button>
         </div>
-        <div class="info-grid">
-          <div>
-            <label>First Name</label>
-            <p id="firstName">-</p>
-          </div>
-          <div>
-            <label>Last Name</label>
-            <p id="lastName">-</p>
-          </div>
-          <div>
-            <label>Email Address</label>
-            <p id="email">-</p>
-          </div>
-          <div>
-            <label>Country</label>
-            <p class="placeholder">-</p>
-          </div>
+        <div className="info-grid">
+          {fields.map(({ label, value }) => (
+            <div key={label}>
+              <label>{label}</label>
+              <p>{value || '-'}</p>
+            </div>
+          ))}
         </div>
       </div>
+    );
 
-      <div class="info-card">
-        <div class="card-header">
-          <h3>Your Information</h3>
-          <button class="edit-button">Edit</button>
+    const AccountPage = () => {
+      const user = JSON.parse(localStorage.getItem('bdgtrUser')) || {};
+
+      const personalFields = [
+        { label: 'First Name', value: user.firstName },
+        { label: 'Last Name', value: user.lastName },
+        { label: 'Email Address', value: user.email },
+        { label: 'Country', value: user.country },
+      ];
+
+      const financialFields = [
+        { label: 'Yearly Income', value: user.yearlyIncome ? `$${user.yearlyIncome}` : null },
+        { label: 'Net Worth', value: user.netWorth ? `$${user.netWorth}` : null },
+        { label: 'Total Debt', value: user.totalDebt ? `$${user.totalDebt}` : null },
+        { label: 'Monthly Debt Payments', value: user.monthlyPayments ? `$${user.monthlyPayments}` : null },
+      ];
+
+      return (
+        <div className="account-content">
+          <Sidebar user={user} />
+          <div className="account-main">
+            <InfoCard title="Personal Information" fields={personalFields} />
+            <InfoCard title="Your Information" fields={financialFields} />
+          </div>
         </div>
-        <div class="info-grid">
-          <div>
-            <label>Yearly Income</label>
-            <p id="income">-</p>
-          </div>
-          <div>
-            <label>Net Worth</label>
-            <p id="netWorth">-</p>
-          </div>
-          <div>
-            <label>Total Debt</label>
-            <p id="debt">-</p>
-          </div>
-          <div>
-            <label>Monthly Debt Payments</label>
-            <p id="payments">-</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      );
+    };
 
-  <script>
-    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-
-    if (user) {
-      document.getElementById('hi-user').innerText = `Hi, ${user.firstName || 'User'}`;
-      document.getElementById('firstName').innerText = user.firstName || '-';
-      document.getElementById('lastName').innerText = user.lastName || '-';
-      document.getElementById('email').innerText = user.email || '-';
-      document.getElementById('income').innerText = user.yearlyIncome ? `$${user.yearlyIncome}` : '-';
-      document.getElementById('debt').innerText = user.totalDebt ? `$${user.totalDebt}` : '-';
-      document.getElementById('payments').innerText = user.monthlyPayments ? `$${user.monthlyPayments}` : '-';
-      document.getElementById('netWorth').innerText = user.netWorth ? `$${user.netWorth}` : '-';
-
-    }
-
-    function logout() {
-      localStorage.removeItem('bdgtrUser');
-      window.location.href = 'index.html';
+    try {
+      const root = document.getElementById('account-root');
+      ReactDOM.createRoot(root).render(<AccountPage />);
+    } catch (e) {
+      document.body.innerHTML = '<h2 style="color:red;">React failed to load.</h2><pre>' + e.message + '</pre>';
     }
   </script>
 </body>
