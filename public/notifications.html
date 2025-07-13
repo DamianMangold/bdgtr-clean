@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notifications - BDGTR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
+  <link rel="stylesheet" href="styles/account.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+  <link rel="stylesheet" href="styles/toggle.css" />
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+</head>
+<body>
+  <div id="notifications-root"></div>
+
+  <script type="text/babel">
+    const Sidebar = ({ user }) => (
+      <div className="account-sidebar">
+        <p className="sidebar-greeting">Hi, {(user && user.firstName) || 'User'}</p>
+
+        <button className="sidebar-button" onClick={() => window.location.href = 'account.html'}>
+          My Profile
+        </button>
+
+        <button className="sidebar-button" onClick={() => window.location.href = 'securityandprivacy.html'}>
+          Security & Privacy
+        </button>
+
+        <button className="sidebar-button active" onClick={() => window.location.href = 'notifications.html'}>
+          Notifications
+        </button>
+
+        <button className="sidebar-button logout" onClick={() => {
+          localStorage.removeItem('bdgtrUser');
+          window.location.href = 'index.html';
+        }}>
+          Log Out
+        </button>
+
+        <button className="back-button" onClick={() => window.location.href = 'index.html'}>
+          ← Back
+        </button>
+      </div>
+    );
+
+    const Toggle = ({ label, value, onToggle }) => (
+      <div className="toggle-item">
+        <span>{label}</span>
+        <div
+          className={`toggle-switch ${value ? 'active' : ''}`}
+          onClick={onToggle}
+        ></div>
+      </div>
+    );
+
+    const NotificationsPage = () => {
+      const user = JSON.parse(localStorage.getItem('bdgtrUser')) || {};
+      const [prefs, setPrefs] = React.useState(() => {
+        return JSON.parse(localStorage.getItem('bdgtrNotificationPrefs')) || {
+          unsubscribeNewsletter: false,
+          unsubscribeMarketing: false,
+        };
+      });
+
+      React.useEffect(() => {
+        localStorage.setItem('bdgtrNotificationPrefs', JSON.stringify(prefs));
+      }, [prefs]);
+
+      return (
+        <div className="account-content">
+          <Sidebar user={user} />
+
+          <div className="account-main">
+            <div className="info-card">
+              <div className="card-header">
+                <h3>Notifications</h3>
+              </div>
+              <div style={{ padding: '2rem' }}>
+                <h4 style={{ marginBottom: '1.5rem' }}>Email Preferences</h4>
+                <div className="toggle-group">
+                  <Toggle
+                    label="Unsubscribe from newsletter"
+                    value={prefs.unsubscribeNewsletter}
+                    onToggle={() =>
+                      setPrefs(p => ({ ...p, unsubscribeNewsletter: !p.unsubscribeNewsletter }))
+                    }
+                  />
+                  <Toggle
+                    label="Unsubscribe from marketing communications"
+                    value={prefs.unsubscribeMarketing}
+                    onToggle={() =>
+                      setPrefs(p => ({ ...p, unsubscribeMarketing: !p.unsubscribeMarketing }))
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('notifications-root')).render(<NotificationsPage />);
+  </script>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-columns">
+    <div class="footer-column">
+      <h4>Company Info</h4>
+      <ul>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="security.html">Security</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="termsofservice.html">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h4>Stay in the loop</h4>
+      <div class="social-icons">
+        <!-- You can add your icons here -->
+        <img src="images/instagram.png" alt="Instagram">
+        <img src="images/tik-tok.png" alt="TikTok">
+        <img src="images/youtube.png" alt="YouTube">
+      </div>
+      <p>Subscribe to our newsletter</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
