@@ -13,17 +13,12 @@ body {
   margin: 3rem auto;
 }
 
-#updateForm {
+.update-form {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
   margin-top: 2rem;
   margin-bottom: 2.5rem;
-}
-
-.button-row {
-  display: flex;
-  gap: 1rem;
 }
 
 .form-title {
@@ -33,4 +28,36 @@ body {
 .form-subtitle {
   text-align: center;
   color: #666;
+}
+
+/* Button layout */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Base button style */
+.start-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+/* Yellow "Get Verdict" button */
+.start-button.yellow {
+  background-color: #F9BC60;
+  color: #002e2c;
+}
+
+.start-button.yellow:hover {
+  background-color: #e5a84e;
 }

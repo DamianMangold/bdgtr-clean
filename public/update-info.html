@@ -5,11 +5,13 @@
   <title>Update Info - BDGTR</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/navigation.css" />
   <link rel="stylesheet" href="styles/updateinfo.css" />
   <link rel="stylesheet" href="styles/responsive.css">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-
 <body>
   <header class="navbar">
     <div class="nav-left">
@@ -17,56 +19,83 @@
     </div>
   </header>
 
-  <main class="container">
-    <h2 class="form-title">Final Step</h2>
-    <p class="form-subtitle">We just need your current cash, and anything else you'd like to update.</p>
+  <div id="update-root"></div>
 
-    <form id="updateForm">
-      <label>How much cash do you currently have?
-        <input type="number" class="form-input" name="cashOnHand" required>
-      </label>
-    </form>
-
-    <div class="button-row">
-      <button id="submitBtn" class="start-button" style="background-color: #F9BC60; color: black;">Get Verdict</button>
-      <a href="purchaseinfo.html" class="start-button">Back</a>
-    </div>
-  </main>
-
-  <script>
-    const user = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
-    const form = document.getElementById('updateForm');
-
-    const profileFields = [
-      { key: 'yearlyIncome', label: 'Yearly Income (CAD)', type: 'number' },
-      { key: 'netWorth', label: 'Net Worth (CAD)', type: 'number' },
-      { key: 'totalDebt', label: 'Total Debt (CAD)', type: 'number' },
-      { key: 'monthlyPayments', label: 'Monthly Debt Payments (CAD)', type: 'number' }
-    ];
-
-    profileFields.forEach(field => {
-      if (!user[field.key]) {
-        const wrapper = document.createElement('label');
-        wrapper.innerText = field.label;
-        const input = document.createElement('input');
-        input.type = field.type;
-        input.name = field.key;
-        input.classList.add('form-input');
-        wrapper.appendChild(input);
-        form.appendChild(wrapper);
-      }
-    });
-
-    document.getElementById('submitBtn').addEventListener('click', () => {
-      const inputs = form.querySelectorAll('input');
-      inputs.forEach(input => {
-        if (input.value) {
-          user[input.name] = input.value;
-        }
+  <script type="text/babel">
+    function UpdateInfoForm() {
+      const [userData, setUserData] = React.useState(() => {
+        return JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
       });
-      localStorage.setItem('bdgtrUser', JSON.stringify(user));
-      window.location.href = 'verdict.html';
-    });
+
+      const [formData, setFormData] = React.useState({});
+
+      const profileFields = [
+        { key: 'yearlyIncome', label: 'Yearly Income (CAD)', type: 'number' },
+        { key: 'netWorth', label: 'Net Worth (CAD)', type: 'number' },
+        { key: 'totalDebt', label: 'Total Debt (CAD)', type: 'number' },
+        { key: 'monthlyPayments', label: 'Monthly Debt Payments (CAD)', type: 'number' },
+      ];
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
+
+      const handleSubmit = () => {
+        const updatedUser = { ...userData, ...formData };
+        localStorage.setItem('bdgtrUser', JSON.stringify(updatedUser));
+        window.location.href = 'verdict.html';
+      };
+
+      return (
+        <main className="container">
+          <h2 className="form-title">Final Step</h2>
+          <p className="form-subtitle">We just need your current cash, and anything else you'd like to update.</p>
+
+          <form className="update-form">
+            <label>
+              How much cash do you currently have?
+              <input
+                type="number"
+                className="form-input"
+                name="cashOnHand"
+                value={formData.cashOnHand || ''}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            {profileFields.map(field => {
+              if (!userData[field.key]) {
+                return (
+                  <label key={field.key}>
+                    {field.label}
+                    <input
+                      type={field.type}
+                      name={field.key}
+                      className="form-input"
+                      value={formData[field.key] || ''}
+                      onChange={handleChange}
+                    />
+                  </label>
+                );
+              }
+              return null;
+            })}
+          </form>
+
+          <div className="button-row">
+            <button onClick={handleSubmit} className="start-button yellow">
+              Get Verdict
+            </button>
+            <a href="purchaseinfo.html" className="start-button">Back</a>
+          </div>
+        </main>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("update-root"));
+    root.render(<UpdateInfoForm />);
   </script>
 </body>
 </html>

@@ -4,3 +4,90 @@ body {
   font-family: Arial, sans-serif;
   background-color: #004643;
 }
+
+/* Container styling */
+.purchase-container {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 15px;
+  max-width: 900px;
+  margin: 3rem auto;
+}
+
+/* Title styling */
+.purchase-title {
+  text-align: center;
+  color: #002e2c;
+  margin-bottom: 2rem;
+}
+
+/* Form layout */
+.purchase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Checkbox group styling */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Recurring inputs row */
+.recurring-group {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Button row styling */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* User icon override */
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.start-button {
+  background-color: #F9BC60; /* BDGTR yellow */
+  color: #002e2c; /* BDGTR green text */
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.start-button:hover {
+  background-color: #e5a84e;
+}
+
+.info-note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.form-input select,
+select.form-input {
+  padding-right: 2.5rem; /* creates space between arrow and edge */
+  background-position: right 1rem center; /* moves arrow inward */
+  background-repeat: no-repeat;
+  background-size: 0.8rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

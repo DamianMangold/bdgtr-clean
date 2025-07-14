@@ -1,95 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Purchase Info - BDGTR</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/navigation.css">
-  <link rel="stylesheet" href="styles/purchaseinfo.css">
-  <link rel="stylesheet" href="styles/responsive.css">
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
+  <link rel="stylesheet" href="styles/purchaseinfo.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <header class="navbar">
     <div class="nav-left">
       <a href="index.html" class="nav-button">Home</a>
     </div>
+    <div class="nav-right auth-buttons"></div>
   </header>
 
-  <main class="container" style="background-color: white; padding: 3rem; border-radius: 15px; max-width: 900px; margin-top: 3rem;">
-    <h1 style="text-align: center; color: #002e2c;">What are you buying?</h1>
+  <div id="purchase-root"></div>
 
-    <form id="purchaseForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <label>What are you buying?
-        <input type="text" class="form-input">
-      </label>
+  <script type="text/babel">
+    function PurchaseForm() {
+      const [formData, setFormData] = React.useState({
+        whatBuying: '',
+        necessity: '',
+        recurring: '',
+        cost: '',
+        recurringFrequency: '',
+        recurringCost: '',
+        otherInfo: ''
+      });
 
-      <label>How necessary is this purchase
-        <select class="form-input">
-          <option value="">Select</option>
-          <option value="essential">Essential</option>
-          <option value="moderate">Moderate</option>
-          <option value="optional">Optional</option>
-        </select>
-      </label>
+      React.useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+        const authButtons = document.querySelector('.auth-buttons');
+        if (user && authButtons) {
+          authButtons.innerHTML =
+            '<a href="account.html">' +
+              '<img src="Images/user-icon.png" alt="Account" class="user-icon" />' +
+            '</a>';
+        }
+      }, []);
 
-      <p>Any recurring payments?</p>
-      <div style="display: flex; align-items: center; gap: 1rem;">
-        <label><input type="checkbox" name="recurring-yes"> Yes</label>
-        <label><input type="checkbox" name="recurring-no"> No</label>
-      </div>
-
-      <label>How much does it cost?
-        <input type="number" class="form-input">
-      </label>
-
-      <p>If recurring, what is the payment frequency and cost?</p>
-      <div style="display: flex; gap: 1rem;">
-        <input type="text" class="form-input" placeholder="Frequency">
-        <input type="number" class="form-input" placeholder="Cost">
-      </div>
-
-      <label>Any other important information?
-        <input type="text" class="form-input">
-      </label>
-
-      <div style="display: flex; justify-content: center; gap: 1rem;">
-        <a href="index.html" class="start-button">Back</a>
-        <button type="submit" class="start-button">Next</button>
-      </div>
-    </form>
-  </main>
-
-  <script>
-  const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-  const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
-
-  if (user && authButtons) {
-    authButtons.innerHTML = `
-      <a href="account.html">
-        <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
-      </a>
-    `;
-  }
-
-  const form = document.getElementById('purchaseForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = {
-        whatBuying: form.querySelector('input[type="text"]')?.value,
-        necessity: form.querySelector('select')?.value,
-        recurring: form.querySelectorAll('input[type="checkbox"]')[0]?.checked ? 'yes' : 'no',
-        cost: form.querySelector('input[type="number"]')?.value,
-        recurringFrequency: form.querySelectorAll('input[type="text"]')[1]?.value,
-        recurringCost: form.querySelectorAll('input[type="number"]')[1]?.value,
-        otherInfo: form.querySelectorAll('input[type="text"]')[2]?.value,
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
       };
-      localStorage.setItem('bdgtrPurchaseData', JSON.stringify(data));
-      window.location.href = 'update-info.html';
-    });
-  }
+
+      const handleRecurring = (value) => {
+        setFormData(prev => ({ ...prev, recurring: value }));
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        localStorage.setItem('bdgtrPurchaseData', JSON.stringify(formData));
+        window.location.href = 'update-info.html';
+      };
+
+      return (
+        <main className="purchase-container">
+          <h1 className="purchase-title">What are you buying?</h1>
+          <form onSubmit={handleSubmit} className="purchase-form">
+            <label>
+              What are you buying?
+              <input
+                type="text"
+                name="whatBuying"
+                className="form-input"
+                value={formData.whatBuying}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>
+              How necessary is this purchase
+              <select
+                name="necessity"
+                className="form-input"
+                value={formData.necessity}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select</option>
+                <option value="essential">Essential</option>
+                <option value="moderate">Moderate</option>
+                <option value="optional">Optional</option>
+              </select>
+            </label>
+
+            <p>Any recurring payments or buy now, pay later?</p>
+            <div className="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={formData.recurring === 'yes'}
+                  onChange={() => handleRecurring('yes')}
+                />
+                Yes
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={formData.recurring === 'no'}
+                  onChange={() => handleRecurring('no')}
+                />
+                No
+              </label>
+            </div>
+
+            <label>
+              How much does it cost upfront?
+              <input
+                type="number"
+                name="cost"
+                className="form-input"
+                value={formData.cost}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <p>If it’s recurring or BNPL, how often do you pay and how much per interval?</p>
+            <div className="recurring-group">
+              <select
+                name="recurringFrequency"
+                className="form-input"
+                value={formData.recurringFrequency}
+                onChange={handleChange}
+              >
+                <option value="">Select frequency</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Bi-Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+                <option value="other">Other</option>
+              </select>
+              <input
+                type="number"
+                name="recurringCost"
+                className="form-input"
+                placeholder="Amount per interval"
+                value={formData.recurringCost}
+                onChange={handleChange}
+              />
+            </div>
+
+            <label>
+              Any other important information?
+              <input
+                type="text"
+                name="otherInfo"
+                className="form-input"
+                value={formData.otherInfo}
+                onChange={handleChange}
+                placeholder="e.g. interest charges, custom payment frequency"
+              />
+              <span className="info-note">
+                ℹ️ Let us know if your payment schedule is different or if interest may apply.
+              </span>
+            </label>
+
+            <div className="button-row">
+              <a href="index.html" className="start-button">Back</a>
+              <button type="submit" className="start-button">Next</button>
+            </div>
+          </form>
+        </main>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("purchase-root"));
+    root.render(<PurchaseForm />);
   </script>
 </body>
 </html>

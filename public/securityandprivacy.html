@@ -79,11 +79,11 @@
                 <h3>Security & Privacy</h3>
               </div>
               <div className="info-grid" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                
+
                 <div>
-                  <h4 style={{ marginBottom: '0.5rem' }}>Delete account</h4>
-                  <button className="sidebar-button logout" onClick={deleteAccount}>
-                    Delete Account
+                  <h4 style={{ marginBottom: '0.5rem' }}>Change your password</h4>
+                  <button className="sidebar-button" onClick={() => window.location.href = 'contact.html'}>
+                    Request Password Change
                   </button>
                 </div>
 
@@ -91,6 +91,13 @@
                   <h4 style={{ marginBottom: '0.5rem' }}>Request your data</h4>
                   <button className="sidebar-button" onClick={downloadData}>
                     Start Request
+                  </button>
+                </div>
+
+                <div>
+                  <h4 style={{ marginBottom: '0.5rem' }}>Delete account</h4>
+                  <button className="sidebar-button logout" onClick={deleteAccount}>
+                    Delete Account
                   </button>
                 </div>
 
