@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,16 +7,14 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <link rel="stylesheet" href="styles/reset.css" />
-  <link rel="stylesheet" href="styles/main.css" />
-  <link rel="stylesheet" href="styles/navigation.css" />
-  <link rel="stylesheet" href="styles/debt-details.css" />
-  <link rel="stylesheet" href="styles/responsive.css" />
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/navigation.css">
+  <link rel="stylesheet" href="styles/debt-details.css">
+  <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     function DebtDetailsForm() {
       const [debtTypes, setDebtTypes] = React.useState([]);
@@ -36,17 +35,18 @@
         setBehindPayments((prev) => (prev === value ? '' : value));
       };
 
+      const getApiBase = () =>
+        window.location.hostname === 'localhost'
+          ? 'http://localhost:3000'
+          : window.location.origin;
+
       const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
-        const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
-        const debtCheckData = JSON.parse(localStorage.getItem('debtCheckData') || '{}');
+        const existingData = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
 
         const fullUserData = {
-          ...signupData,
-          ...incomeCashData,
-          ...debtCheckData,
+          ...existingData,
           debtTypes,
           otherDebt,
           totalDebt,
@@ -55,7 +55,7 @@
         };
 
         try {
-          const response = await fetch(`${window.location.origin}/signup`, {
+          const response = await fetch(`${getApiBase()}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(fullUserData)
@@ -79,74 +79,54 @@
           <div className="signup-right">
             <h2>Tell Us About Your Debt</h2>
             <form onSubmit={handleSubmit}>
-
-              <label>What type of debt do you have? (Select all that apply)</label>
-              <div className="checkbox-list">
-                {[
-                  ['credit', 'Credit card'],
-                  ['student', 'Student loans'],
-                  ['mortgage', 'Mortgage'],
-                  ['auto', 'Auto loans'],
-                  ['personal', 'Personal loans'],
-                  ['bnpl', 'Buy-now-pay-later'],
-                  ['other', 'Other']
-                ].map(([value, label]) => (
-                  <label key={value}>
+              <label>What kind of debt do you have?</label>
+              <div className="checkbox-group">
+                {['Student Loans', 'Credit Card', 'Car Loan', 'Personal Loan', 'Other'].map((type) => (
+                  <label key={type}>
                     <input
                       type="checkbox"
-                      name="debtType"
-                      value={value}
-                      checked={debtTypes.includes(value)}
-                      onChange={() => toggleDebtType(value)}
+                      value={type}
+                      checked={debtTypes.includes(type)}
+                      onChange={() => toggleDebtType(type)}
                     />
-                    {label}
+                    {type}
                   </label>
                 ))}
               </div>
 
-              <input
-                type="text"
-                name="otherDebt"
-                placeholder="Other debt type"
-                className="text-input"
-                value={otherDebt}
-                onChange={(e) => setOtherDebt(e.target.value)}
-              />
+              <label>
+                If other, please describe:
+                <input
+                  type="text"
+                  value={otherDebt}
+                  onChange={(e) => setOtherDebt(e.target.value)}
+                />
+              </label>
 
-              <label htmlFor="totalDebt">Total Current Debt (CAD)</label>
-              <input
-                type="number"
-                id="totalDebt"
-                name="totalDebt"
-                placeholder="e.g. 15000"
-                className="text-input"
-                value={totalDebt}
-                onChange={(e) => setTotalDebt(e.target.value)}
-              />
+              <label>
+                Total amount of debt:
+                <input
+                  type="number"
+                  value={totalDebt}
+                  onChange={(e) => setTotalDebt(e.target.value)}
+                />
+              </label>
 
-              <label htmlFor="monthlyPayments">Total Monthly Debt Payments (CAD)</label>
-              <input
-                type="number"
-                id="monthlyPayments"
-                name="monthlyPayments"
-                placeholder="e.g. 800"
-                className="text-input"
-                value={monthlyPayments}
-                onChange={(e) => setMonthlyPayments(e.target.value)}
-              />
+              <label>
+                Total monthly payments:
+                <input
+                  type="number"
+                  value={monthlyPayments}
+                  onChange={(e) => setMonthlyPayments(e.target.value)}
+                />
+              </label>
 
-              <p className="info-note">
-                ℹ️ This includes minimum payments on all debts.
-              </p>
-
-              <label>Are you currently behind on any payments?</label>
+              <label>Are you behind on any payments?</label>
               <div className="checkbox-group">
-                {['yes', 'no', 'skip'].map((val) => (
+                {['yes', 'no', 'not sure'].map((val) => (
                   <label key={val}>
                     <input
                       type="checkbox"
-                      name="behindPayments"
-                      value={val}
                       checked={behindPayments === val}
                       onChange={() => handleExclusiveCheckbox(val)}
                     />
@@ -158,19 +138,19 @@
               <div className="button-group">
                 <button
                   type="button"
+                  className="start-button"
                   onClick={() => window.location.href = 'debt-check.html'}
-                  className="signup-button outline"
                 >
                   Back
                 </button>
-                <button type="submit" className="signup-button">Submit</button>
                 <button
                   type="button"
+                  className="start-button"
                   onClick={() => window.location.href = 'index.html'}
-                  className="signup-button outline"
                 >
                   Skip
                 </button>
+                <button type="submit" className="start-button">Submit</button>
               </div>
             </form>
           </div>

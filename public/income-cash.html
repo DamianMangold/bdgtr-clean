@@ -30,7 +30,7 @@
       const [netWorth, setNetWorth] = React.useState('');
 
       React.useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem('incomeCashData'));
+        const saved = JSON.parse(localStorage.getItem('bdgtrUser'));
         if (saved) {
           setYearlyIncome(saved.yearlyIncome || '');
           setCashOnHand(saved.cashOnHand || '');
@@ -41,10 +41,10 @@
       const handleSubmit = (e) => {
         e.preventDefault();
         const data = { yearlyIncome, cashOnHand, netWorth };
-        localStorage.setItem('incomeCashData', JSON.stringify(data));
 
-        const user = JSON.parse(localStorage.getItem('bdgtrUser')) || {};
-        localStorage.setItem('bdgtrUser', JSON.stringify({ ...user, ...data }));
+        const bdgtrUser = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
+        const combined = { ...bdgtrUser, ...data };
+        localStorage.setItem('bdgtrUser', JSON.stringify(combined));
 
         window.location.href = 'debt-check.html';
       };

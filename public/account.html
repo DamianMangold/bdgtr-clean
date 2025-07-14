@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="styles/navigation.css" />
   <link rel="stylesheet" href="styles/account.css" />
   <link rel="stylesheet" href="styles/responsive.css" />
-
-  <!-- React + Babel -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
@@ -22,7 +20,6 @@
     const Sidebar = ({ user }) => (
       <div className="account-sidebar">
         <p className="sidebar-greeting">Hi, {(user && user.firstName) || 'User'}</p>
-
         <button className="sidebar-button active" onClick={() => window.location.href = 'account.html'}>
           My Profile
         </button>
@@ -98,7 +95,6 @@
           if (f.label === 'First Name') updated.firstName = f.value;
           if (f.label === 'Last Name') updated.lastName = f.value;
           if (f.label === 'Email Address') updated.email = f.value;
-          if (f.label === 'Country') updated.country = f.value;
         });
         setUser(updated);
         localStorage.setItem('bdgtrUser', JSON.stringify(updated));
@@ -120,15 +116,14 @@
       const personalFields = [
         { label: 'First Name', value: user.firstName },
         { label: 'Last Name', value: user.lastName },
-        { label: 'Email Address', value: user.email },
-        { label: 'Country', value: user.country },
+        { label: 'Email Address', value: user.email }
       ];
 
       const financialFields = [
         { label: 'Yearly Income', value: user.yearlyIncome ? `$${user.yearlyIncome}` : '' },
         { label: 'Net Worth', value: user.netWorth ? `$${user.netWorth}` : '' },
         { label: 'Total Debt', value: user.totalDebt ? `$${user.totalDebt}` : '' },
-        { label: 'Monthly Debt Payments', value: user.monthlyPayments ? `$${user.monthlyPayments}` : '' },
+        { label: 'Monthly Debt Payments', value: user.monthlyPayments ? `$${user.monthlyPayments}` : '' }
       ];
 
       return (
@@ -145,7 +140,6 @@
     ReactDOM.createRoot(document.getElementById('account-root')).render(<AccountPage />);
   </script>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-columns">
       <div class="footer-column">

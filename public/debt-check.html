@@ -1,12 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Debt Check - BDGTR</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/navigation.css">
@@ -15,7 +15,6 @@
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     function DebtCheckForm() {
       const [selected, setSelected] = React.useState('');
@@ -24,47 +23,59 @@
         setSelected(value === selected ? '' : value);
       };
 
+      const getApiBase = () =>
+        window.location.hostname === 'localhost'
+          ? 'http://localhost:3000'
+          : window.location.origin;
+
+      const submitUser = async (debtValue) => {
+        const existingData = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
+
+        const fullUserData = {
+          ...existingData,
+          hasDebt: debtValue
+        };
+
+        try {
+          const response = await fetch(`${getApiBase()}/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fullUserData)
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
+            window.location.href = 'index.html';
+          } else {
+            alert(result.message || "Signup failed.");
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
+      };
+
       const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!selected) {
           alert("Please select an option.");
           return;
         }
 
-        localStorage.setItem('debtCheckData', JSON.stringify({ hasDebt: selected }));
-
         if (selected === 'yes') {
+          localStorage.setItem('bdgtrUser', JSON.stringify({
+            ...JSON.parse(localStorage.getItem('bdgtrUser') || '{}'),
+            hasDebt: 'yes'
+          }));
           window.location.href = 'debt-details.html';
         } else {
-          const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
-          const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
-
-          const fullUserData = {
-            ...signupData,
-            ...incomeCashData,
-            hasDebt: selected
-          };
-
-          try {
-            const response = await fetch(`${window.location.origin}/signup`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(fullUserData)
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
-              window.location.href = 'index.html';
-            } else {
-              alert(result.message || "Signup failed.");
-            }
-          } catch (err) {
-            alert("Error: " + err.message);
-          }
+          await submitUser(selected);
         }
+      };
+
+      const handleSkip = async () => {
+        await submitUser('skip');
       };
 
       return (
@@ -96,14 +107,13 @@
               </div>
 
               <p>
-                ℹ️ Please do not check “Yes” if it's credit card debt that you can 100% pay off as normal.
-                Only select if you owe interest.
+                ℹ️ Only select "Yes" if you owe interest (e.g. long-term credit card debt).
               </p>
 
-              <div className="button-row">
-                <button type="button" onClick={() => window.location.href = 'income-cash.html'}>Back</button>
-                <button type="button" onClick={() => window.location.href = 'index.html'}>Skip</button>
-                <button type="submit">Next</button>
+              <div className="button-group">
+                <button type="button" className="start-button" onClick={() => window.location.href = 'income-cash.html'}>Back</button>
+                <button type="button" className="start-button" onClick={handleSkip}>Skip</button>
+                <button type="submit" className="start-button">Next</button>
               </div>
             </form>
           </div>

@@ -13,19 +13,7 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Static frontend
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Serve index.html at root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Routes
-const decisionRouter = require('./routes/aidecision');
-app.use('/', decisionRouter);
-
-// Extended signup route
+// ✅ Signup route — must be before static/router
 app.post('/signup', async (req, res) => {
   const {
     firstName,
@@ -78,6 +66,18 @@ app.post('/signup', async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 });
+
+// Static frontend
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Serve index.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Routes
+const decisionRouter = require('./routes/aidecision');
+app.use('/', decisionRouter);
 
 // Login route using Prisma
 app.post('/login', async (req, res) => {
