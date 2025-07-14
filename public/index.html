@@ -19,6 +19,8 @@
       <div class="nav-left">
         <a href="index.html" class="nav-button active">Home</a>
         <a href="about.html" class="nav-button">About Us</a>
+        <a href="resources.html" class="nav-button">Resources</a>
+
       </div>
       <div class="nav-right auth-buttons">
         <a href="sign-up.html" class="nav-button">Sign Up</a>
@@ -35,19 +37,7 @@
     </div>
   </main>
 
-  <div class="disclaimer">
-  <h3>Disclaimer</h3>
-  <p>
-    BDGTR is a free educational tool intended to help users evaluate personal financial decisions. 
-    The information and AI-generated outputs provided on this site are for general informational purposes only and do not constitute financial, legal, tax, or investment advice. 
-    You should not rely on BDGTR as a substitute for advice from a qualified professional.
-  
-    By using this site, you acknowledge and agree that any financial decisions you make based on the content or recommendations from BDGTR are made at your own risk. 
-    BDGTR, its creators, and its affiliates disclaim all liability for any loss or damages arising directly or indirectly from the use of this tool.
-  
-    BDGTR is not intended for individuals under the age of 18. By continuing to use this site, you confirm that you are at least 18 years old.
-  </p>
-</div>
+<hr class="section-divider" />
 
 
 
@@ -187,6 +177,41 @@
     `;
   }
 </script>
+
+<div id="disclaimer-bar" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #F9BC60;
+  color: #002e2c;
+  padding: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+">
+  <div style="max-width: 90%; line-height: 1.4;">
+   Disclaimer:
+BDGTR is a free educational tool intended to help users evaluate personal financial decisions.
+The information and AI-generated outputs provided on this site are for general informational purposes only and do not constitute financial, legal, tax, or investment advice.
+You should not rely on BDGTR as a substitute for advice from a qualified professional.
+
+By using this site, you acknowledge and agree that any financial decisions you make based on the content or recommendations from BDGTR are made at your own risk.
+BDGTR, its creators, and its affiliates disclaim all liability for any loss or damages arising directly or indirectly from the use of this tool.
+  </div>
+  <button onclick="document.getElementById('disclaimer-bar').style.display='none'" style="
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #002e2c;
+    cursor: pointer;
+    margin-left: 1rem;
+  ">×</button>
+</div>
 
 
 </body>

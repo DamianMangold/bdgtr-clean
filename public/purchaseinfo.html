@@ -175,8 +175,93 @@
       );
     }
 
+    function AgeGateWrapper() {
+      const [showModal, setShowModal] = React.useState(false);
+      const [birthdate, setBirthdate] = React.useState('');
+      const [error, setError] = React.useState('');
+
+      React.useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('bdgtrUser') || 'null');
+        if (!user) {
+          setShowModal(true);
+        } else if (user.birthday) {
+          const age = getAge(user.birthday);
+          if (age < 18) {
+            window.location.href = 'index.html';
+          }
+        }
+      }, []);
+
+      const getAge = (date) => {
+        const b = new Date(date);
+        const today = new Date();
+        let age = today.getFullYear() - b.getFullYear();
+        const m = today.getMonth() - b.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < b.getDate())) {
+          age--;
+        }
+        return age;
+      };
+
+      const handleContinue = () => {
+        const age = getAge(birthdate);
+        if (!birthdate || isNaN(age)) {
+          setError('Please enter a valid birthdate.');
+          return;
+        }
+        if (age < 18) {
+          window.location.href = 'index.html';
+        } else {
+          setShowModal(false);
+        }
+      };
+
+      return (
+        <>
+          {showModal && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1000
+            }}>
+              <div style={{
+                backgroundColor: 'white',
+                padding: '2rem',
+                borderRadius: '16px',
+                width: '90%',
+                maxWidth: '400px',
+                textAlign: 'center'
+              }}>
+                <h2>Age Verification</h2>
+                <p>You must be 18 or older to use this tool.</p>
+                <input
+                  type="date"
+                  value={birthdate}
+                  onChange={(e) => setBirthdate(e.target.value)}
+                  className="form-input"
+                  style={{ width: '100%', padding: '10px', marginTop: '1rem' }}
+                />
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <button className="start-button" onClick={handleContinue} style={{ marginTop: '1rem' }}>
+                  Continue
+                </button>
+              </div>
+            </div>
+          )}
+          {!showModal && <PurchaseForm />}
+        </>
+      );
+    }
+
     const root = ReactDOM.createRoot(document.getElementById("purchase-root"));
-    root.render(<PurchaseForm />);
+    root.render(<AgeGateWrapper />);
   </script>
 </body>
 </html>
