@@ -2,65 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Log In - BDGTR</title>
-    <link rel="stylesheet" href="styles/reset.css">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/login.css">
   <link rel="stylesheet" href="styles/responsive.css">
 </head>
-
 <body>
-  <div class="login-container">
-    <div class="login-left">
-      <h1><span class="welcome-line">Welcome Back!</span></h1>
-    </div>
+  <div id="root"></div>
 
-    <div class="login-right">
-      <h2>Log In</h2>
-      <form>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+  <script type="text/babel">
+    function LoginForm() {
+      const [email, setEmail] = React.useState('');
+      const [password, setPassword] = React.useState('');
+      const [error, setError] = React.useState('');
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
 
-        <a href="#" class="forgot-password">Forgot Password?</a>
+        try {
+          const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+          });
 
-        <button type="submit" class="login-button">Log In</button>
+          const result = await response.json();
 
-        <p class="login-link">Don't have an account? <a href="sign-up.html">Sign up now</a></p>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    document.querySelector('form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const name = document.querySelector('#name')?.value;
-      const email = document.querySelector('#email').value;
-      const password = document.querySelector('#password').value;
-
-      try {
-        const response = await fetch('http://localhost:3000/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          localStorage.setItem('bdgtrUser', JSON.stringify({ email }));
-          window.location.href = 'index.html';
-        } else {
-          alert(data.message);
+          if (response.ok) {
+            localStorage.setItem('bdgtrUser', JSON.stringify(result.user));
+            window.location.href = 'index.html';
+          } else {
+            setError(result.message || 'Login failed.');
+          }
+        } catch (err) {
+          setError('Error: ' + err.message);
         }
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
-    });
+      };
+
+      return (
+        <div className="login-container">
+          <div className="login-left">
+            <h1><span className="welcome-line">Welcome Back!</span></h1>
+          </div>
+
+          <div className="login-right">
+            <h2>Log In</h2>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              {error && (
+                <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+              )}
+
+              <a href="forgot-password.html" className="forgot-password">Forgot Password?</a>
+
+              <button type="submit" className="login-button">Log In</button>
+
+              <p className="login-link">
+                Don't have an account? <a href="sign-up.html">Sign up now</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<LoginForm />);
   </script>
 </body>
 </html>

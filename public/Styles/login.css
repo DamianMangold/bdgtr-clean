@@ -172,3 +172,6 @@ input {
   display: block;
 }
 
+.login-link a {
+  text-decoration: underline;
+}
