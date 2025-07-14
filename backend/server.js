@@ -25,9 +25,24 @@ app.get('/', (req, res) => {
 const decisionRouter = require('./routes/aidecision');
 app.use('/', decisionRouter);
 
-// Signup route using Prisma
+// Extended signup route
 app.post('/signup', async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    birthday,
+    yearlyIncome,
+    cashOnHand,
+    netWorth,
+    hasDebt,
+    debtTypes,
+    otherDebt,
+    totalDebt,
+    monthlyPayments,
+    behindPayments
+  } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({ message: 'Missing required fields.' });
@@ -40,7 +55,21 @@ app.post('/signup', async (req, res) => {
     }
 
     const newUser = await prisma.user.create({
-      data: { email, password, name: `${firstName} ${lastName}` },
+      data: {
+        email,
+        password,
+        name: `${firstName} ${lastName}`,
+        birthday: birthday ? new Date(birthday) : null,
+        yearlyIncome: yearlyIncome ? parseInt(yearlyIncome) : null,
+        cashOnHand: cashOnHand ? parseInt(cashOnHand) : null,
+        netWorth: netWorth ? parseInt(netWorth) : null,
+        hasDebt,
+        debtTypes: debtTypes ? JSON.stringify(debtTypes) : null,
+        otherDebt,
+        totalDebt: totalDebt ? parseInt(totalDebt) : null,
+        monthlyPayments: monthlyPayments ? parseInt(monthlyPayments) : null,
+        behindPayments
+      },
     });
 
     res.status(200).json({ message: 'Account created successfully!', user: newUser });

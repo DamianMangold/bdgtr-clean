@@ -14,9 +14,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  email            String   @unique
+  password         String
+  name             String
+  birthday         DateTime?
+  yearlyIncome     Int?
+  cashOnHand       Int?
+  netWorth         Int?
+  hasDebt          String?
+  debtTypes        String?   // Store as JSON string or comma-separated list
+  otherDebt        String?
+  totalDebt        Int?
+  monthlyPayments  Int?
+  behindPayments   String?
+  createdAt        DateTime  @default(now())
 }
