@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Debt Check - BDGTR</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/navigation.css">
@@ -10,84 +14,105 @@
   <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
+  <div id="root"></div>
 
-  <div class="signup-container">
-    <div class="signup-right">
-      <h2>Do You Have Debt?</h2>
-      <form id="debt-check-form">
+  <script type="text/babel">
+    function DebtCheckForm() {
+      const [selected, setSelected] = React.useState('');
 
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" name="hasDebt" value="yes" onclick="toggleCheckbox(this)"> Yes
-          </label>
-          <label>
-            <input type="checkbox" name="hasDebt" value="no" onclick="toggleCheckbox(this)"> No
-          </label>
-        </div>
-
-        <p>ℹ️ Please do not check “Yes” if it's credit card debt that you can 100% pay off as normal. Only select if you owe interest.</p>
-
-        <div class="button-row">
-          <button type="button" onclick="window.location.href='income-cash.html'">Back</button>
-          <button type="button" onclick="window.location.href='index.html'">Skip</button>
-          <button type="submit">Next</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-<script>
-  function toggleCheckbox(clickedBox) {
-    const checkboxes = document.querySelectorAll('input[name="hasDebt"]');
-    checkboxes.forEach(box => {
-      if (box !== clickedBox) box.checked = false;
-    });
-  }
-
-  document.querySelector('#debt-check-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const checkedBox = document.querySelector('input[name="hasDebt"]:checked');
-    if (!checkedBox) {
-      alert("Please select an option.");
-      return;
-    }
-
-    const hasDebt = checkedBox.value;
-    localStorage.setItem('debtCheckData', JSON.stringify({ hasDebt }));
-
-    if (hasDebt === 'yes') {
-      window.location.href = 'debt-details.html';
-    } else {
-      const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
-      const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
-
-      const fullUserData = {
-        ...signupData,
-        ...incomeCashData,
-        hasDebt
+      const handleCheckbox = (value) => {
+        setSelected(value === selected ? '' : value);
       };
 
-      try {
-        const response = await fetch(`${window.location.origin}/signup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(fullUserData)
-        });
+      const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        const result = await response.json();
-
-        if (response.ok) {
-          localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
-          window.location.href = 'index.html';
-        } else {
-          alert(result.message || "Signup failed.");
+        if (!selected) {
+          alert("Please select an option.");
+          return;
         }
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
+
+        localStorage.setItem('debtCheckData', JSON.stringify({ hasDebt: selected }));
+
+        if (selected === 'yes') {
+          window.location.href = 'debt-details.html';
+        } else {
+          const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+          const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
+
+          const fullUserData = {
+            ...signupData,
+            ...incomeCashData,
+            hasDebt: selected
+          };
+
+          try {
+            const response = await fetch(`${window.location.origin}/signup`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(fullUserData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
+              window.location.href = 'index.html';
+            } else {
+              alert(result.message || "Signup failed.");
+            }
+          } catch (err) {
+            alert("Error: " + err.message);
+          }
+        }
+      };
+
+      return (
+        <div className="signup-container">
+          <div className="signup-right">
+            <h2>Do You Have Debt?</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="hasDebt"
+                    value="yes"
+                    checked={selected === 'yes'}
+                    onChange={() => handleCheckbox('yes')}
+                  />
+                  Yes
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="hasDebt"
+                    value="no"
+                    checked={selected === 'no'}
+                    onChange={() => handleCheckbox('no')}
+                  />
+                  No
+                </label>
+              </div>
+
+              <p>
+                ℹ️ Please do not check “Yes” if it's credit card debt that you can 100% pay off as normal.
+                Only select if you owe interest.
+              </p>
+
+              <div className="button-row">
+                <button type="button" onClick={() => window.location.href = 'income-cash.html'}>Back</button>
+                <button type="button" onClick={() => window.location.href = 'index.html'}>Skip</button>
+                <button type="submit">Next</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
     }
-  });
-</script>
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<DebtCheckForm />);
+  </script>
 </body>
 </html>

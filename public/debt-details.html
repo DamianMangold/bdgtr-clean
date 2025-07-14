@@ -1,109 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Debt Details - BDGTR</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/navigation.css">
-  <link rel="stylesheet" href="styles/debt-details.css">
-  <link rel="stylesheet" href="styles/responsive.css">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
+  <link rel="stylesheet" href="styles/debt-details.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
 </head>
 <body>
-  <div class="signup-container">
-    <div class="signup-right">
-      <h2>Tell Us About Your Debt</h2>
+  <div id="root"></div>
 
-      <form id="debt-details-form">
-        <label>What type of debt do you have? (Select all that apply)</label>
-        <div class="checkbox-list">
-          <label><input type="checkbox" name="debtType" value="credit"> Credit card</label>
-          <label><input type="checkbox" name="debtType" value="student"> Student loans</label>
-          <label><input type="checkbox" name="debtType" value="mortgage"> Mortgage</label>
-          <label><input type="checkbox" name="debtType" value="auto"> Auto loans</label>
-          <label><input type="checkbox" name="debtType" value="personal"> Personal loans</label>
-          <label><input type="checkbox" name="debtType" value="bnpl"> Buy-now-pay-later</label>
-          <label><input type="checkbox" name="debtType" value="other"> Other</label>
-        </div>
+  <script type="text/babel">
+    function DebtDetailsForm() {
+      const [debtTypes, setDebtTypes] = React.useState([]);
+      const [otherDebt, setOtherDebt] = React.useState('');
+      const [totalDebt, setTotalDebt] = React.useState('');
+      const [monthlyPayments, setMonthlyPayments] = React.useState('');
+      const [behindPayments, setBehindPayments] = React.useState('');
 
-        <input type="text" name="otherDebt" placeholder="Other debt type" class="text-input">
-
-        <label for="totalDebt">Total Current Debt (CAD)</label>
-        <input type="number" name="totalDebt" id="totalDebt" placeholder="e.g. 15000" class="text-input">
-
-        <label for="monthlyPayments">Total Monthly Debt Payments (CAD)</label>
-        <input type="number" name="monthlyPayments" id="monthlyPayments" placeholder="e.g. 800" class="text-input">
-        <p style="font-size: 0.9em; color: #666;">ℹ️ This includes minimum payments on all debts.</p>
-
-        <label>Are you currently behind on any payments?</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="behindPayments" value="yes" onclick="toggleCheckbox(this, 'behindPayments')"> Yes</label>
-          <label><input type="checkbox" name="behindPayments" value="no" onclick="toggleCheckbox(this, 'behindPayments')"> No</label>
-          <label><input type="checkbox" name="behindPayments" value="skip" onclick="toggleCheckbox(this, 'behindPayments')"> Skip</label>
-        </div>
-
-        <div>
-          <button type="button" onclick="window.location.href='debt-check.html'" class="signup-button outline">Back</button>
-          <button type="submit" class="signup-button">Submit</button>
-          <button type="button" onclick="window.location.href='index.html'" class="signup-button outline">Skip</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    function toggleCheckbox(clickedBox, groupName) {
-      const group = document.querySelectorAll(`input[name="${groupName}"]`);
-      group.forEach(box => {
-        if (box !== clickedBox) box.checked = false;
-      });
-    }
-
-    document.querySelector('#debt-details-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const form = e.target;
-      const debtTypes = Array.from(form.querySelectorAll('input[name="debtType"]:checked')).map(input => input.value);
-      const otherDebt = form.otherDebt.value;
-      const totalDebt = form.totalDebt.value;
-      const monthlyPayments = form.monthlyPayments.value;
-      const behindBox = form.querySelector('input[name="behindPayments"]:checked');
-      const behindPayments = behindBox ? behindBox.value : '';
-
-      const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
-      const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
-      const debtCheckData = JSON.parse(localStorage.getItem('debtCheckData') || '{}');
-
-      const fullUserData = {
-        ...signupData,
-        ...incomeCashData,
-        ...debtCheckData,
-        debtTypes,
-        otherDebt,
-        totalDebt,
-        monthlyPayments,
-        behindPayments
+      const toggleDebtType = (value) => {
+        setDebtTypes((prev) =>
+          prev.includes(value)
+            ? prev.filter((v) => v !== value)
+            : [...prev, value]
+        );
       };
 
-      try {
-        const response = await fetch(`${window.location.origin}/signup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(fullUserData)
-        });
+      const handleExclusiveCheckbox = (value) => {
+        setBehindPayments((prev) => (prev === value ? '' : value));
+      };
 
-        const result = await response.json();
+      const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        if (response.ok) {
-          localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
-          window.location.href = 'index.html'; // You can change this to 'account.html'
-        } else {
-          alert(result.message || "Signup failed.");
+        const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
+        const incomeCashData = JSON.parse(localStorage.getItem('incomeCashData') || '{}');
+        const debtCheckData = JSON.parse(localStorage.getItem('debtCheckData') || '{}');
+
+        const fullUserData = {
+          ...signupData,
+          ...incomeCashData,
+          ...debtCheckData,
+          debtTypes,
+          otherDebt,
+          totalDebt,
+          monthlyPayments,
+          behindPayments
+        };
+
+        try {
+          const response = await fetch(`${window.location.origin}/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fullUserData)
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            localStorage.setItem('bdgtrUser', JSON.stringify(fullUserData));
+            window.location.href = 'index.html';
+          } else {
+            alert(result.message || "Signup failed.");
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
         }
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
-    });
+      };
+
+      return (
+        <div className="signup-container">
+          <div className="signup-right">
+            <h2>Tell Us About Your Debt</h2>
+            <form onSubmit={handleSubmit}>
+
+              <label>What type of debt do you have? (Select all that apply)</label>
+              <div className="checkbox-list">
+                {[
+                  ['credit', 'Credit card'],
+                  ['student', 'Student loans'],
+                  ['mortgage', 'Mortgage'],
+                  ['auto', 'Auto loans'],
+                  ['personal', 'Personal loans'],
+                  ['bnpl', 'Buy-now-pay-later'],
+                  ['other', 'Other']
+                ].map(([value, label]) => (
+                  <label key={value}>
+                    <input
+                      type="checkbox"
+                      name="debtType"
+                      value={value}
+                      checked={debtTypes.includes(value)}
+                      onChange={() => toggleDebtType(value)}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+
+              <input
+                type="text"
+                name="otherDebt"
+                placeholder="Other debt type"
+                className="text-input"
+                value={otherDebt}
+                onChange={(e) => setOtherDebt(e.target.value)}
+              />
+
+              <label htmlFor="totalDebt">Total Current Debt (CAD)</label>
+              <input
+                type="number"
+                id="totalDebt"
+                name="totalDebt"
+                placeholder="e.g. 15000"
+                className="text-input"
+                value={totalDebt}
+                onChange={(e) => setTotalDebt(e.target.value)}
+              />
+
+              <label htmlFor="monthlyPayments">Total Monthly Debt Payments (CAD)</label>
+              <input
+                type="number"
+                id="monthlyPayments"
+                name="monthlyPayments"
+                placeholder="e.g. 800"
+                className="text-input"
+                value={monthlyPayments}
+                onChange={(e) => setMonthlyPayments(e.target.value)}
+              />
+
+              <p className="info-note">
+                ℹ️ This includes minimum payments on all debts.
+              </p>
+
+              <label>Are you currently behind on any payments?</label>
+              <div className="checkbox-group">
+                {['yes', 'no', 'skip'].map((val) => (
+                  <label key={val}>
+                    <input
+                      type="checkbox"
+                      name="behindPayments"
+                      value={val}
+                      checked={behindPayments === val}
+                      onChange={() => handleExclusiveCheckbox(val)}
+                    />
+                    {val.charAt(0).toUpperCase() + val.slice(1)}
+                  </label>
+                ))}
+              </div>
+
+              <div className="button-group">
+                <button
+                  type="button"
+                  onClick={() => window.location.href = 'debt-check.html'}
+                  className="signup-button outline"
+                >
+                  Back
+                </button>
+                <button type="submit" className="signup-button">Submit</button>
+                <button
+                  type="button"
+                  onClick={() => window.location.href = 'index.html'}
+                  className="signup-button outline"
+                >
+                  Skip
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<DebtDetailsForm />);
   </script>
 </body>
 </html>

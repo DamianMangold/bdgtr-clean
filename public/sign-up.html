@@ -1,80 +1,116 @@
+<!-- sign-up.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - BDGTR</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/signup.css">
-  <link rel="stylesheet" href="styles/responsive.css">
+  <title>Sign Up</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/signup.css" />
 </head>
 <body>
-  <div class="signup-container">
-    <div class="signup-left">
-      <span>Welcome To</span>
-      <span>BDGTR!</span>
-    </div>
-    <div class="signup-right">
-      <h2>Sign Up</h2>
-      <form id="signup-form">
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" required>
+  <div id="root"></div>
 
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" required>
+  <script type="text/babel">
+    function SignUpForm() {
+      const [error, setError] = React.useState("");
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setError("");
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        const data = {
+          firstName: document.getElementById("first-name").value,
+          lastName: document.getElementById("last-name").value,
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+          confirmPassword: document.getElementById("confirm-password").value,
+          birthday: document.getElementById("birthdate").value,
+        };
 
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        if (data.password !== data.confirmPassword) {
+          setError("Passwords do not match.");
+          return;
+        }
 
-        <div class="terms-container">
-          <input type="checkbox" id="terms" required>
-          <label for="terms">
-            I have read and agree to the 
-            <a href="termsofservice.html" target="_blank">Terms of Service</a> & 
-            <a href="privacy.html" target="_blank">Privacy Policy</a>
-          </label>
+        const birthdate = new Date(data.birthday);
+        const today = new Date();
+        const age = today.getFullYear() - birthdate.getFullYear();
+        const monthDiff = today.getMonth() - birthdate.getMonth();
+        const dayDiff = today.getDate() - birthdate.getDate();
+
+        const isUnder18 =
+          age < 18 ||
+          (age === 18 && monthDiff < 0) ||
+          (age === 18 && monthDiff === 0 && dayDiff < 0);
+
+        if (isUnder18) {
+          setError("You must be at least 18 years old to create an account.");
+          return;
+        }
+
+        // Save initial data
+        localStorage.setItem("bdgtrUser", JSON.stringify(data));
+        window.location.href = "income-cash.html"; // redirect to next step
+      };
+
+      return (
+        <div className="signup-wrapper">
+          <div className="signup-container">
+            <div className="signup-left">
+              <h2>Welcome To <br /> BDGTR!</h2>
+            </div>
+            <div className="signup-right">
+              <h2 className="form-title">Sign Up</h2>
+              <form className="signup-form" onSubmit={handleSubmit}>
+                <input id="first-name" type="text" placeholder="First Name" required />
+                <input id="last-name" type="text" placeholder="Last Name" required />
+                <input id="email" type="email" placeholder="Email" required />
+                <input id="password" type="password" placeholder="Password" required />
+                <input id="confirm-password" type="password" placeholder="Confirm Password" required />
+
+                <label>
+                  <span style={{ fontWeight: "600", display: "block", marginBottom: "4px" }}>
+                    Birthday
+                  </span>
+                  <input
+                    type="date"
+                    id="birthdate"
+                    required
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ccc",
+                      borderRadius: "10px",
+                      width: "100%",
+                    }}
+                  />
+                </label>
+
+                {error && (
+                  <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+                )}
+
+                <label className="checkbox-label">
+                  <input type="checkbox" required />
+                  I have read and agree to the
+                  <a href="#"> Terms of Service </a> &
+                  <a href="#"> Privacy Policy</a>
+                </label>
+                <button type="submit" className="submit-btn">Create Account</button>
+              </form>
+              <p className="login-link">
+                Already have an account? <a href="#">Log In</a>
+              </p>
+            </div>
+          </div>
         </div>
+      );
+    }
 
-        <button type="submit" class="signup-button">Create Account</button>
-        <p class="login-link">Already have an account? <a href="login.html">Log In</a></p>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    document.querySelector('#signup-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const firstName = document.querySelector('#firstName').value.trim();
-      const lastName = document.querySelector('#lastName').value.trim();
-      const email = document.querySelector('#email').value.trim();
-      const password = document.querySelector('#password').value;
-      const confirmPassword = document.querySelector('#confirmPassword').value;
-      const agreedToTerms = document.querySelector('#terms').checked;
-
-      if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-      }
-
-      if (!agreedToTerms) {
-        alert("You must agree to the Terms of Service and Privacy Policy.");
-        return;
-      }
-
-      localStorage.setItem('signupData', JSON.stringify({
-        firstName, lastName, email, password
-      }));
-
-      window.location.href = 'income-cash.html';
-    });
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<SignUpForm />);
   </script>
 </body>
 </html>

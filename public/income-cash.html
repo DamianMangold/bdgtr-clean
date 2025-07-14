@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Income & Cash - BDGTR</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/navigation.css">
@@ -17,42 +21,105 @@
     </div>
   </header>
 
-  <main class="container" style="background-color: white; padding: 3rem; border-radius: 15px; max-width: 900px; margin-top: 3rem;">
-    <h1 style="text-align: center; color: #002e2c;">Your Income & Cash</h1>
+  <div id="root"></div>
 
-    <form id="income-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <label>Estimated Yearly Income (CAD)
-        <input type="number" id="yearlyIncome" name="yearlyIncome" placeholder="e.g. 45000" class="form-input" required>
-      </label>
+  <script type="text/babel">
+    function IncomeCashForm() {
+      const [yearlyIncome, setYearlyIncome] = React.useState('');
+      const [cashOnHand, setCashOnHand] = React.useState('');
+      const [netWorth, setNetWorth] = React.useState('');
 
-      <label>Cash in Account (approximate)
-        <input type="number" id="cashOnHand" name="cashOnHand" placeholder="e.g. 3000" class="form-input" required>
-      </label>
+      React.useEffect(() => {
+        const saved = JSON.parse(localStorage.getItem('incomeCashData'));
+        if (saved) {
+          setYearlyIncome(saved.yearlyIncome || '');
+          setCashOnHand(saved.cashOnHand || '');
+          setNetWorth(saved.netWorth || '');
+        }
+      }, []);
 
-      <label>Estimated Net Worth
-        <input type="number" id="netWorth" name="netWorth" placeholder="e.g. 10000" class="form-input" required>
-      </label>
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = { yearlyIncome, cashOnHand, netWorth };
+        localStorage.setItem('incomeCashData', JSON.stringify(data));
 
-      <div style="display: flex; justify-content: center; gap: 1rem;">
-        <a href="sign-up.html" class="start-button">Back</a>
-        <a href="debt-check.html" class="start-button">Skip</a>
-        <button type="submit" class="start-button">Next</button>
-      </div>
-    </form>
-  </main>
+        const user = JSON.parse(localStorage.getItem('bdgtrUser')) || {};
+        localStorage.setItem('bdgtrUser', JSON.stringify({ ...user, ...data }));
 
-  <script>
-    document.querySelector('#income-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+        window.location.href = 'debt-check.html';
+      };
 
-      const yearlyIncome = document.querySelector('#yearlyIncome').value;
-      const cashOnHand = document.querySelector('#cashOnHand').value;
-      const netWorth = document.querySelector('#netWorth').value;
+      return (
+        <main className="container">
+          <h1 className="page-title">Your Income & Cash</h1>
 
-      localStorage.setItem('incomeCashData', JSON.stringify({ yearlyIncome, cashOnHand, netWorth }));
+          <form onSubmit={handleSubmit} className="income-form">
+            <label>
+              Estimated Yearly Income (CAD)
+              <input
+                type="number"
+                id="yearlyIncome"
+                name="yearlyIncome"
+                className="form-input"
+                placeholder="e.g. 45000"
+                required
+                value={yearlyIncome}
+                onChange={(e) => setYearlyIncome(e.target.value)}
+              />
+            </label>
 
-      window.location.href = 'debt-check.html';
-    });
+            <label>
+              Cash in Account (approximate)
+              <input
+                type="number"
+                id="cashOnHand"
+                name="cashOnHand"
+                className="form-input"
+                placeholder="e.g. 3000"
+                required
+                value={cashOnHand}
+                onChange={(e) => setCashOnHand(e.target.value)}
+              />
+            </label>
+
+            <label>
+              Estimated Net Worth
+              <input
+                type="number"
+                id="netWorth"
+                name="netWorth"
+                className="form-input"
+                placeholder="e.g. 10000"
+                required
+                value={netWorth}
+                onChange={(e) => setNetWorth(e.target.value)}
+              />
+            </label>
+
+            <div className="button-group">
+              <button
+                type="button"
+                className="start-button"
+                onClick={() => window.location.href = "sign-up.html"}
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="start-button"
+                onClick={() => window.location.href = "debt-check.html"}
+              >
+                Skip
+              </button>
+              <button type="submit" className="start-button">Next</button>
+            </div>
+          </form>
+        </main>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<IncomeCashForm />);
   </script>
 </body>
 </html>
