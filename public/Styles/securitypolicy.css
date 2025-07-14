@@ -1,0 +1,47 @@
+.security-main {
+  background-color: #004643;
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.security-main h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.security-main .subheading {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  color: #ffffff;
+}
+
+.security-card {
+  background-color: #acd1c6;
+  color: #004643;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.security-card h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.security-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.security-card a {
+  color: #004643;
+  text-decoration: underline;
+  font-weight: bold;
+}

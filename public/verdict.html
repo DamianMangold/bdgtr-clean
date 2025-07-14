@@ -1,67 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>The Verdict</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/navigation.css">
-  <link rel="stylesheet" href="styles/verdict.css">
-  <link rel="stylesheet" href="styles/responsive.css">
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
+  <link rel="stylesheet" href="styles/verdict.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 </head>
 <body>
-
-  <!-- Header -->
   <header class="navbar">
     <div class="nav-wrapper">
       <div class="nav-left">
         <a href="index.html" class="nav-button">Home</a>
       </div>
-      <div class="nav-right auth-buttons">
-        <a href="sign-up.html" class="nav-button">Sign Up</a>
-        <a href="login.html" class="nav-button">Log In</a>
-      </div>
+      <div class="nav-right auth-buttons"></div>
     </div>
   </header>
 
-  <main class="verdict-container">
-    <div class="verdict-box">
-      <section class="verdict-message">
-        <h3>Loading your verdict...</h3>
-        <p>Please wait while we evaluate your purchase decision.</p>
-      </section>
+  <div id="verdict-root"></div>
 
-      <div class="button-group">
-        <button class="primary-button">Find Cheaper Alternatives</button>
-        <button class="primary-button">Create Savings Plan</button>
-        <a href="purchaseinfo.html" class="primary-button">Evaluate Again</a>
-      </div>
-    </div>
-  </main>
+  <script type="text/babel">
+    function VerdictPage() {
+      const [verdict, setVerdict] = React.useState(null);
+      const [error, setError] = React.useState(null);
+      const [showDetails, setShowDetails] = React.useState(false);
+      const [copied, setCopied] = React.useState(false);
 
-  <div style="text-align: center; margin: 2rem auto; max-width: 900px;">
-    <button onclick="toggleInputs()" class="primary-button" style="margin-bottom: 1rem;">Toggle Submitted Info</button>
-    <div id="verdict-output" style="display: none; background-color: #f8f8f8; padding: 1.5rem; border-radius: 10px; text-align: left;"></div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
       const user = JSON.parse(localStorage.getItem('bdgtrUser') || '{}');
       const purchase = JSON.parse(localStorage.getItem('bdgtrPurchaseData') || '{}');
-      const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
 
-      if (user && authButtons) {
-        authButtons.innerHTML = `
-          <a href="account.html">
-            <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
-          </a>
-        `;
-      }
+      React.useEffect(() => {
+        const authButtons = document.querySelector('.auth-buttons');
+        if (user && authButtons) {
+          authButtons.innerHTML = `
+            <a href="account.html">
+              <img src="images/user-icon.png" alt="Account" class="user-icon" />
+            </a>
+          `;
+        }
 
-      // ✅ Hardcoded API base to always hit the local backend server
-      const API_BASE = 'http://localhost:3000';
-
-      async function fetchVerdict() {
+        const API_BASE = 'http://localhost:3000';
         const inputForAI = {
           user: {
             income: user.yearlyIncome,
@@ -81,56 +64,97 @@
           }
         };
 
-        try {
-          const response = await fetch(`${API_BASE}/get-verdict`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(inputForAI)
-          });
+        fetch(`${API_BASE}/get-verdict`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(inputForAI)
+        })
+          .then(res => {
+            if (!res.ok) throw new Error('Server error');
+            return res.json();
+          })
+          .then(data => setVerdict(data.verdict))
+          .catch(() => setError('Unable to generate verdict at this time.'));
+      }, []);
 
-          if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
-          }
-
-          const data = await response.json();
-          document.querySelector('.verdict-message').innerHTML = `<h3>Your Verdict</h3><p>${data.verdict}</p>`;
-        } catch (err) {
-          console.error('Error fetching AI verdict:', err);
-          document.querySelector('.verdict-message').innerHTML = `<h3>Error</h3><p>Unable to generate verdict at this time.</p>`;
-        }
-      }
-
-      fetchVerdict();
-
-      window.toggleInputs = function () {
-        const verdictContainer = document.getElementById('verdict-output');
-        const isVisible = verdictContainer.style.display === 'block';
-
-        if (!isVisible) {
-          verdictContainer.innerHTML = `
-            <h3>Your Submitted Information</h3>
-            <h4>Purchase Info</h4>
-            <p><strong>Item:</strong> ${purchase.whatBuying || '-'}</p>
-            <p><strong>Necessity:</strong> ${purchase.necessity || '-'}</p>
-            <p><strong>Recurring:</strong> ${purchase.recurring || '-'}</p>
-            <p><strong>Cost:</strong> $${purchase.cost || '-'}</p>
-            <p><strong>Frequency:</strong> ${purchase.recurringFrequency || '-'}</p>
-            <p><strong>Recurring Cost:</strong> $${purchase.recurringCost || '-'}</p>
-            <p><strong>Other Info:</strong> ${purchase.otherInfo || '-'}</p>
-
-            <h4>Financial Info</h4>
-            <p><strong>Yearly Income:</strong> $${user.yearlyIncome || '-'}</p>
-            <p><strong>Net Worth:</strong> $${user.netWorth || '-'}</p>
-            <p><strong>Total Debt:</strong> $${user.totalDebt || '-'}</p>
-            <p><strong>Monthly Payments:</strong> $${user.monthlyPayments || '-'}</p>
-            <p><strong>Current Cash:</strong> $${user.cashOnHand || '-'}</p>
-          `;
-          verdictContainer.style.display = 'block';
-        } else {
-          verdictContainer.style.display = 'none';
-        }
+      const handleShare = () => {
+        const text = `BDGTR Verdict:\n\n${verdict}\n\nTry it yourself: ${window.location.href}`;
+        navigator.clipboard.writeText(text).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        });
       };
-    });
+
+      return (
+        <main className="verdict-container">
+          <div className="verdict-box">
+            <section className="verdict-message">
+              {error && (
+                <div>
+                  <h3>Error</h3>
+                  <p>{error}</p>
+                </div>
+              )}
+              {!error && !verdict && (
+                <div>
+                  <h3>Loading your verdict<span className="loading-dot">...</span></h3>
+                  <p>Please wait while we evaluate your purchase decision.</p>
+                </div>
+              )}
+              {verdict && (
+                <div>
+                  <h3>Your Verdict</h3>
+                  <p>{verdict}</p>
+                </div>
+              )}
+            </section>
+
+            <div className="button-group">
+              <a href="resources.html" className="primary-button">Explore Savings Tools</a>
+              <a href="purchaseinfo.html" className="primary-button">Evaluate Again</a>
+              {verdict && (
+                <div>
+                  <button onClick={handleShare} className="primary-button">Share Verdict</button>
+                  {copied && <div className="copied-alert">Copied!</div>}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="toggle-button-row">
+            <button
+              className="primary-button toggle-info-button"
+              onClick={() => setShowDetails(prev => !prev)}
+            >
+              Toggle Submitted Info
+            </button>
+          </div>
+
+          {showDetails && (
+            <div className="submitted-block">
+              <h3>Your Submitted Information</h3>
+              <h4>Purchase Info</h4>
+              <p><strong>Item:</strong> {purchase.whatBuying || '-'}</p>
+              <p><strong>Necessity:</strong> {purchase.necessity || '-'}</p>
+              <p><strong>Recurring:</strong> {purchase.recurring || '-'}</p>
+              <p><strong>Cost:</strong> ${purchase.cost || '-'}</p>
+              <p><strong>Frequency:</strong> {purchase.recurringFrequency || '-'}</p>
+              <p><strong>Recurring Cost:</strong> ${purchase.recurringCost || '-'}</p>
+              <p><strong>Other Info:</strong> {purchase.otherInfo || '-'}</p>
+
+              <h4>Financial Info</h4>
+              <p><strong>Yearly Income:</strong> ${user.yearlyIncome || '-'}</p>
+              <p><strong>Net Worth:</strong> ${user.netWorth || '-'}</p>
+              <p><strong>Total Debt:</strong> ${user.totalDebt || '-'}</p>
+              <p><strong>Monthly Payments:</strong> ${user.monthlyPayments || '-'}</p>
+              <p><strong>Current Cash:</strong> ${user.cashOnHand || '-'}</p>
+            </div>
+          )}
+        </main>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('verdict-root')).render(<VerdictPage />);
   </script>
 </body>
 </html>
