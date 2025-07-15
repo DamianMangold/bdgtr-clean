@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="styles/navigation.css">
   <link rel="stylesheet" href="styles/home.css">
   <link rel="stylesheet" href="styles/responsive.css">
-
 </head>
 <body>
 
@@ -20,7 +19,6 @@
         <a href="index.html" class="nav-button active">Home</a>
         <a href="about.html" class="nav-button">About Us</a>
         <a href="resources.html" class="nav-button">Resources</a>
-
       </div>
       <div class="nav-right auth-buttons">
         <a href="sign-up.html" class="nav-button">Sign Up</a>
@@ -37,9 +35,7 @@
     </div>
   </main>
 
-<hr class="section-divider" />
-
-
+  <hr class="section-divider">
 
   <!-- About Us Section -->
   <section class="about-us">
@@ -60,9 +56,8 @@
     <div class="how-it-works-text">
       <h2>How it works</h2>
       <p>BDGTR is quick and easy to use. You tell us what purchase you’re looking to make, then you tell us about your financial situation.<br><br>
-  Based on the given information, our AI tool will let you know how good of a decision it is and give you a recommendation.<br><br>
-  We also offer budget templates and spend tracking templates to help you understand your spending better!</p>
-
+      Based on the given information, our AI tool will let you know how good of a decision it is and give you a recommendation.<br><br>
+      We also offer budget templates and spend tracking templates to help you understand your spending better!</p>
     </div>
     <div class="how-it-works-image">
       <img src="images/howitworks.png" alt="How it works Image">
@@ -70,154 +65,150 @@
   </section>
 
   <!-- Resources Section -->
-<section class="resources-section">
-  <div class="resources-content">
-    <div class="resources-text">
-      <h2>Resources</h2>
-      <p>
-        BDGTR is more than a tool. It is a resource hub. Our goal is to give everyone the tools to achieve their financial goals.
-        To do so we are always on the look to provide you the most up to date information and personal finance tools.
-      </p>
-      <p>
-        Check out our resources page to find budget templates, personal finance blogs and to subscribe to our newsletter.
-      </p>
-      <a href="resources.html"> <button class="start-button">Resources</button></a>
-
-    </div>
-
-    <!-- Carousel Image Container -->
-    <div class="resources-carousel">
-      <div class="carousel-slide active">
-        <img src="images/budget_templates.png" alt="Free Budget Templates">
+  <section class="resources-section">
+    <div class="resources-content">
+      <div class="resources-text">
+        <h2>Resources</h2>
+        <p>
+          BDGTR is more than a tool. It is a resource hub. Our goal is to give everyone the tools to achieve their financial goals.
+          To do so we are always on the look to provide you the most up to date information and personal finance tools.
+        </p>
+        <p>
+          Check out our resources page to find budget templates, personal finance blogs and to subscribe to our newsletter.
+        </p>
+        <a href="resources.html" class="start-button">Resources</a>
       </div>
-      <div class="carousel-slide">
-        <img src="images/blog.png" alt="Finance Blog">
+
+      <!-- Carousel Image Container -->
+      <div class="resources-carousel">
+        <div class="carousel-slide active">
+          <img src="images/budget_templates.png" alt="Free Budget Templates">
+        </div>
+        <div class="carousel-slide">
+          <img src="images/blog.png" alt="Finance Blog">
+        </div>
+        <div class="carousel-slide">
+          <img src="images/newsletter.png" alt="Newsletter">
+        </div>
       </div>
-      <div class="carousel-slide">
-        <img src="images/newsletter.png" alt="Newsletter">
+    </div>
+  </section>
+
+  <!-- Carousel Script -->
+  <script>
+    const slides = document.querySelectorAll('.carousel-slide');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    setInterval(nextSlide, 3000);
+  </script>
+
+  <!-- Privacy Section -->
+  <section class="privacy-section">
+    <div class="privacy-text">
+      <h2>Commitment to privacy</h2>
+      <p>We do not share our personal information with affiliated third parties for their own marketing purposes.</p>
+    </div>
+    <div class="privacy-image">
+      <img src="images/privacy-icon.png" alt="Privacy Icon">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h4>Company Info</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="securitypolicy.html">Security</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="termsofservice.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Stay in the loop</h4>
+        <div class="social-icons">
+          <a href="https://instagram.com/bdgtr.ca" target="_blank" rel="noopener">
+            <img src="images/instagram.png" alt="Instagram">
+          </a>
+          <img src="images/tik-tok.png" alt="TikTok">
+          <img src="images/youtube.png" alt="YouTube">
+        </div>
+        <p>Subscribe to our newsletter</p>
       </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- Carousel Script -->
-<script>
-  const slides = document.querySelectorAll('.carousel-slide');
-  let current = 0;
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+    const authButtons = document.querySelector('.auth-buttons');
 
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-  }
-
-  function nextSlide() {
-    current = (current + 1) % slides.length;
-    showSlide(current);
-  }
-
-  setInterval(nextSlide, 3000);
-</script>
-
-<!-- Privacy Section -->
-<section class="privacy-section">
-  <div class="privacy-text">
-    <h2>Commitment to privacy</h2>
-    <p>We do not share our personal information with affiliated third parties for their own marketing purposes.</p>
-  </div>
-  <div class="privacy-image">
-    <img src="images/privacy-icon.png" alt="Privacy Icon">
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-columns">
-    <div class="footer-column">
-      <h4>Company Info</h4>
-      <ul>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Help</h4>
-      <ul>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="securitypolicy.html">Security</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="termsofservice.html">Terms of Service</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Stay in the loop</h4>
-      <div class="social-icons">
-        <a href="https://instagram.com/bdgtr.ca" target="_blank" rel="noopener">
-          <img src="images/instagram.png" alt="Instagram" />
+    if (user && authButtons) {
+      authButtons.innerHTML = `
+        <a href="account.html">
+          <img src="images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
         </a>
-        <img src="images/tik-tok.png" alt="TikTok">
-        <img src="images/youtube.png" alt="YouTube">
-      </div>
-      <p>Subscribe to our newsletter</p>
-    </div>
-  </div>
-</footer>
+      `;
+    }
+  </script>
 
-
-
-<script>
-  const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-  const authButtons = document.querySelector('.auth-buttons');
-
-  if (user && authButtons) {
-    authButtons.innerHTML = `
-      <a href="account.html">
-        <img src="images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
-      </a>
-    `;
-  }
-</script>
-
-<div id="disclaimer-bar" style="
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #F9BC60;
-  color: #002e2c;
-  padding: 1rem;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 9999;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-">
-  <div style="max-width: 90%; line-height: 1.4;">
-   Disclaimer:
-BDGTR is a free educational tool intended to help users evaluate personal financial decisions.
-The information and AI-generated outputs provided on this site are for general informational purposes only and do not constitute financial, legal, tax, or investment advice.
-You should not rely on BDGTR as a substitute for advice from a qualified professional.
-
-By using this site, you acknowledge and agree that any financial decisions you make based on the content or recommendations from BDGTR are made at your own risk.
-BDGTR, its creators, and its affiliates disclaim all liability for any loss or damages arising directly or indirectly from the use of this tool.
-  </div>
-  <button onclick="document.getElementById('disclaimer-bar').style.display='none'" style="
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
+  <div id="disclaimer-bar" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #F9BC60;
     color: #002e2c;
-    cursor: pointer;
-    margin-left: 1rem;
-  ">×</button>
-</div>
+    padding: 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+  ">
+    <div style="max-width: 90%; line-height: 1.4;">
+      Disclaimer:
+      BDGTR is a free educational tool intended to help users evaluate personal financial decisions.
+      The information and AI-generated outputs provided on this site are for general informational purposes only and do not constitute financial, legal, tax, or investment advice.
+      You should not rely on BDGTR as a substitute for advice from a qualified professional.
 
+      By using this site, you acknowledge and agree that any financial decisions you make based on the content or recommendations from BDGTR are made at your own risk.
+      BDGTR, its creators, and its affiliates disclaim all liability for any loss or damages arising directly or indirectly from the use of this tool.
+    </div>
+    <button onclick="document.getElementById('disclaimer-bar').style.display='none'" style="
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #002e2c;
+      cursor: pointer;
+      margin-left: 1rem;
+    ">×</button>
+  </div>
 
 </body>
 </html>
