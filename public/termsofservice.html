@@ -17,13 +17,9 @@
       <ul class="nav-links">
         <li><a href="index.html" class="nav-button">Home</a></li>
         <li><a href="about.html" class="nav-button">About Us</a></li>
+        <li><a href="resources.html" class="nav-button">Resources</a></li>
+        
       </ul>
-    </div>
-    <div class="nav-right">
-      <div class="auth-buttons">
-        <a href="signup.html" class="nav-button">Sign Up</a>
-        <a href="login.html" class="nav-button">Log In</a>
-      </div>
     </div>
   </div>
 </header>
@@ -99,17 +95,5 @@
   </div>
 </footer>
 
-  <script>
-    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
-    const authButtons = document.querySelector('.auth-buttons') || document.querySelector('.nav-right');
-
-    if (user && authButtons) {
-      authButtons.innerHTML = `
-        <a href="account.html">
-          <img src="Images/user-icon.png" alt="Account" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;" />
-        </a>
-      `;
-    }
-  </script>
 </body>
 </html>

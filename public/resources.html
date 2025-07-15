@@ -18,121 +18,89 @@
         <a href="about.html" class="nav-button">About</a>
         <a href="resources.html" class="nav-button active">Resources</a>
       </div>
-      <div class="nav-right">
-        <a href="login.html" class="nav-button">Log In</a>
+      <div class="nav-right auth-buttons">
         <a href="sign-up.html" class="nav-button">Sign Up</a>
+        <a href="login.html" class="nav-button">Log In</a>
       </div>
     </div>
   </header>
 
   <main class="resources-main">
-  <h1>Resources</h1>
-  <div class="resources-grid">
-    <div class="resource-card">
-      <img src="images/budget-templates.png" alt="Budgeting Templates Thumbnail" class="resource-image">
-      <h2>Budgeting Templates</h2>
+    <h1>Resources</h1>
+    <div class="resources-grid">
+      <a href="budgeting-templates.html" class="resource-card">
+        <img src="images/budget-templates.png" alt="Budgeting Templates Thumbnail" class="resource-image">
+        <h2>Budgeting Templates</h2>
+      </a>
     </div>
+  </main>
 
-    <!--
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Debt Help Tools</h2>
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <h2>Our Newsletter</h2>
+    <div class="newsletter-card">
+      <img src="images/newsletter-graphic.png" alt="Newsletter Graphic" class="newsletter-image" />
+      <div class="newsletter-content">
+        <h3>Stay on top of your finances with our newsletter!</h3>
+        <p>Subscribe to our newsletter to get bi-weekly updates on anything relevant to your wallet.<br>We promise to not be annoying.</p>
+        <form>
+          <input type="email" class="form-input" placeholder="Your Email Address" required>
+          <button type="submit" class="subscribe-button">Subscribe</button>
+        </form>
+      </div>
     </div>
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Spending Tracker</h2>
-    </div>
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Financial Education</h2>
-    </div>
-    -->
-  </div>
+  </section>
 
-  <!--
-  <div class="more-button-container">
-    <a href="templates.html" class="more-button">More Resources</a>
-  </div>
-
-  <h2 class="section-heading">Latest Tips & Stories</h2>
-  <div class="resources-grid">
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Story</h2>
-    </div>
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Blog</h2>
-    </div>
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Blog</h2>
-    </div>
-    <div class="resource-card">
-      <div class="image-placeholder"></div>
-      <h2>Story</h2>
-    </div>
-  </div>
-  <div class="more-button-container">
-    <a href="blog.html" class="more-button">More Stories</a>
-  </div>
-  -->
-</main>
-
-
-    <!-- Newsletter Section -->
-    <section class="newsletter-section">
-      <h2>Our Newsletter</h2>
-      <div class="newsletter-card">
-        <img src="images/newsletter-graphic.png" alt="Newsletter Graphic" class="newsletter-image" />
-        <div class="newsletter-content">
-
-          <h3>Stay on top of your finances with our newsletter!</h3>
-          <p>Subscribe to our newsletter to get bi-weekly updates on anything relevant to your wallet.<br>We promise to not be annoying.</p>
-          <form>
-            <input type="email" class="form-input" placeholder="Your Email Address" required>
-            <button type="submit" class="subscribe-button">Subscribe</button>
-          </form>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h4>Company Info</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="securitypolicy.html">Security</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="termsofservice.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Stay in the loop</h4>
+        <div class="social-icons">
+          <a href="https://instagram.com/bdgtr.ca" target="_blank" rel="noopener">
+            <img src="images/instagram.png" alt="Instagram" />
+          </a>
+          <img src="images/tik-tok.png" alt="TikTok">
+          <img src="images/youtube.png" alt="YouTube">
         </div>
+        <p>Subscribe to our newsletter</p>
       </div>
-    </section>
+    </div>
+  </footer>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-columns">
-    <div class="footer-column">
-      <h4>Company Info</h4>
-      <ul>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="blog.html">Blog</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Help</h4>
-      <ul>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="securitypolicy.html">Security</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="termsofservice.html">Terms of Service</a></li>
-      </ul>
-    </div>
-    <div class="footer-column">
-      <h4>Stay in the loop</h4>
-      <div class="social-icons">
-        <a href="https://instagram.com/bdgtr.ca" target="_blank" rel="noopener">
-          <img src="images/instagram.png" alt="Instagram" />
+  <!-- Script to swap auth buttons with icon if logged in -->
+  <script>
+    const user = JSON.parse(localStorage.getItem('bdgtrUser'));
+    const authButtons = document.querySelector('.auth-buttons');
+
+    if (user && authButtons) {
+      authButtons.innerHTML = `
+        <a href="account.html">
+          <img src="images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
         </a>
-        <img src="images/tik-tok.png" alt="TikTok">
-        <img src="images/youtube.png" alt="YouTube">
-      </div>
-      <p>Subscribe to our newsletter</p>
-    </div>
-  </div>
-</footer>
+      `;
+    }
+  </script>
 </body>
 </html>

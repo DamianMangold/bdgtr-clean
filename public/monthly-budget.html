@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Budget | BDGTR</title>
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/navigation.css" />
+  <link rel="stylesheet" href="styles/templatepages.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-wrapper">
+      <div class="nav-left">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="about.html" class="nav-button">About</a>
+        <a href="resources.html" class="nav-button">Resources</a>
+      </div>
+      <div class="nav-right auth-buttons">
+        <a href="login.html" class="nav-button">Log In</a>
+        <a href="sign-up.html" class="nav-button">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="budget-main">
+    <div class="budget-container">
+      <img src="images/budget-preview.png" alt="Monthly Budget Spreadsheet" class="budget-image" />
+
+      <div class="budget-info">
+        <h1>Monthly Budget</h1>
+        <p>
+          Keep track of your finances with this easy to use template.<br />
+          Understand your spending habits better and see where you can save more.
+        </p>
+        <a id="templateButton" class="template-button">Use Template</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h4>Company Info</h4>
+        <ul>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="securitypolicy.html">Security</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="termsofservice.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Stay in the loop</h4>
+        <div class="social-icons">
+          <a href="https://instagram.com/bdgtr.ca" target="_blank"><img src="images/instagram.png" alt="Instagram" /></a>
+          <img src="images/tik-tok.png" alt="TikTok">
+          <img src="images/youtube.png" alt="YouTube">
+        </div>
+        <p>Subscribe to our newsletter</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login check script -->
+  <script>
+    const button = document.getElementById("templateButton");
+    const user = JSON.parse(localStorage.getItem("bdgtrUser") || "{}");
+
+    if (user.email) {
+      // Logged in - enable link
+      button.href = "https://docs.google.com/spreadsheets/d/1H0rj4o9FgpXIqPbApWZyUGtTt4YvGWJdiPioLgZaQxM/edit?usp=sharing";
+      button.target = "_blank";
+    } else {
+      // Not logged in - redirect to login
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "login.html?redirect=template";
+      });
+    }
+
+    // Swap header if user is logged in
+    const authButtons = document.querySelector('.auth-buttons');
+    if (user && user.email && authButtons) {
+      authButtons.innerHTML = `
+        <a href="account.html">
+          <img src="images/user-icon.png" alt="Account" style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;" />
+        </a>
+      `;
+    }
+  </script>
+</body>
+</html>

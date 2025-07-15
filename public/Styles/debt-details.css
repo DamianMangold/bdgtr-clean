@@ -30,9 +30,11 @@ body {
 /* Shared input styling */
 .text-input,
 select,
-input[type="number"] {
+input[type="number"],
+input[type="text"] {
   width: 100%;
   padding: 12px;
+  margin-top: 6px;
   margin-bottom: 20px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -71,19 +73,12 @@ input[type="number"] {
   flex-shrink: 0;
   margin: 0;
   position: relative;
-  top: 1px; /* 👈 this aligns it perfectly with text */
-}
-
-
-.checkbox-list input[type="checkbox"],
-.checkbox-group input[type="checkbox"] {
-  margin-right: 12px;
-  width: 18px;
-  height: 18px;
+  top: 1px;
 }
 
 /* Buttons */
-.signup-button {
+.signup-button,
+.start-button {
   background-color: white;
   color: black;
   font-weight: bold;
@@ -92,20 +87,29 @@ input[type="number"] {
   border-radius: 9999px;
   cursor: pointer;
   font-size: 1rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.1s ease-in-out;
 }
 
-.signup-button:hover {
+.signup-button:hover,
+.start-button:hover {
   transform: translateY(-1px);
 }
 
 .signup-button.outline {
   background-color: white;
 }
+
 .button-group {
   display: flex;
   justify-content: center;
-  gap: 2.5rem; /* wider space between buttons */
-  margin-top: 2.5rem; /* space above group */
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+/* Label alignment */
+label {
+  display: block;
+  font-weight: 500;
+  color: #003c3c;
 }

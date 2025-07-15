@@ -20,6 +20,16 @@
       const [email, setEmail] = React.useState('');
       const [password, setPassword] = React.useState('');
       const [error, setError] = React.useState('');
+      const [redirectMessage, setRedirectMessage] = React.useState('');
+      const [redirectTo, setRedirectTo] = React.useState('index.html');
+
+      React.useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("redirect") === "template") {
+          setRedirectMessage("Please create an account or log in to access this template.");
+          setRedirectTo("monthly-budget.html");
+        }
+      }, []);
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,7 +46,7 @@
 
           if (response.ok) {
             localStorage.setItem('bdgtrUser', JSON.stringify(result.user));
-            window.location.href = 'index.html';
+            window.location.href = redirectTo;
           } else {
             setError(result.message || 'Login failed.');
           }
@@ -53,6 +63,11 @@
 
           <div className="login-right">
             <h2>Log In</h2>
+            {redirectMessage && (
+              <p style={{ color: '#cc0000', fontWeight: '500', marginBottom: '1rem' }}>
+                {redirectMessage}
+              </p>
+            )}
             <form onSubmit={handleSubmit}>
               <label htmlFor="email">Email</label>
               <input
